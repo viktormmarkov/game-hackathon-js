@@ -11,6 +11,9 @@ const MENU_ITEMS = [{
 }, {
     text: 'Options',
     key: 'options'
+}, {
+    text: 'Exit',
+    key: 'exit'
 }];
 
 export class FirstScene extends Phaser.Scene {
