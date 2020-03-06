@@ -41,6 +41,7 @@ export class FirstScene extends Phaser.Scene {
                 .setOrigin(0.5, 0.5).setInteractive();
             menuItem.on("pointerover", () => {
                 menuItem.setScale(1.2, 1.2);
+                this.sound.play('loading');
             });
             menuItem.on("pointerout", () => {
                 menuItem.setScale(0.8, 0.8);
@@ -50,9 +51,7 @@ export class FirstScene extends Phaser.Scene {
             });
             return menuItem;
         });
-        this.sound.play('loading', {
-            loop: true
-        });
+       
     }
     update() {
         this.background.tilePositionY -= 0.5;
