@@ -9,7 +9,13 @@ export const config = {
   parent: "phaser-example",
   width: 800,
   height: 600,
-  scene: [TitleScene, MainScene, OptionsScene]
+  scene: [MainScene, OptionsScene],
+  physics: {
+    default: "arcade",
+    arcade: {
+      gravity: { y: 0 } // Top down game, so no gravity
+    }
+  }
 };
 
 const game = new Phaser.Game(config);
