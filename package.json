@@ -33,7 +33,9 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "copy-webpack-plugin": "^5.1.1",
     "lodash": "^4.17.15",
-    "phaser": "^3.20.1"
+    "phaser": "^3.20.1",
+    "phaser-webpack-loader": "^2.0.0"
   }
 }
