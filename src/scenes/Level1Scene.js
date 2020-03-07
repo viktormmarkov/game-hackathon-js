@@ -42,7 +42,7 @@ export class Level1Scene extends GameSceneBase {
             console.log('aaa')
         });
         this.physics.add.collider(this.enemiesGroup, this.enemiesGroup);
-        this.createEnemies();
+        this.events.on('wake', () => this.createEnemies());
     }
 
     createEnemies(sprite = 'misa-front') {

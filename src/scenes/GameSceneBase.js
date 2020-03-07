@@ -1,8 +1,6 @@
 import Phaser from 'phaser';
 import { config } from '../index';
 
-import scene1 from '../assets/images/dialog_scene_1.jpg'
-import scene1Dialog from '../assets/dialogs/scene1.json'
 
 export class GameSceneBase extends Phaser.Scene {
     constructor(key) {
@@ -10,9 +8,8 @@ export class GameSceneBase extends Phaser.Scene {
     }
    
     preload() {
-      this.load.image('scene1', scene1);
-      this.load.json('scene1Dialog', scene1Dialog);
     }
+
     createPlayer() {   
       // Create a sprite with physics enabled via the physics system. The image used for the sprite has
  
@@ -41,15 +38,14 @@ export class GameSceneBase extends Phaser.Scene {
         // Watch the player and worldLayer for collisions, for the duration of the scene:
         this.physics.add.collider(this.player, this.worldLayer);
       
-        const indexes = this.worldLayer.getTilesWithin().filter(tile => tile.properties.collides).map(tile => tile.index);
-        this.worldLayer.setTileIndexCallback(indexes, (player, tile) => console.log(tile.properties.action));
-          
+
         const indexes = this.worldLayer.getTilesWithin().filter(tile => tile.properties.collides).map(tile => tile.index);
         this.worldLayer.setTileIndexCallback(indexes, (player, tile) => {
             if (tile.properties.action) {
-                this.scene.sleep(this.key);
+                const currentKey = this.scene.key;
+                this.scene.sleep(currentKey);
                 this.resetMovementButtons();
-                this.scene.launch('DialogScene', {image: tile.properties.action, dialog: tile.properties.action + 'Dialog', nextSceneKey: this.key})
+                this.scene.launch('DialogScene', {action: tile.properties.action, nextSceneKey: currentKey})
             }
             delete tile.properties.action;
         }); 
@@ -142,7 +138,6 @@ export class GameSceneBase extends Phaser.Scene {
     }
 
     resetMovementButtons() {
-      debugger;
       this.cursors.up.reset();
       this.cursors.down.reset();
       this.cursors.left.reset();
