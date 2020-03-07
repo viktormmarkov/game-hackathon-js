@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
-import { config } from '../index';
-import tombstone from '../assets/images/tombstone.png';
+import { config } from '../index'
 
 export class GameSceneBase extends Phaser.Scene {
     constructor(key) {
@@ -8,7 +7,6 @@ export class GameSceneBase extends Phaser.Scene {
     }
    
     preload() {
-      this.load.image('tombstone', tombstone);
     }
 
     createPlayer() {   
@@ -33,7 +31,8 @@ export class GameSceneBase extends Phaser.Scene {
     create() {
         this.lifeBar = this.add.graphics(0, 0).setDepth(11)
         this.lifeBarBg = this.add.graphics(0, 0).setDepth(10);
-        this.avatar = this.add.image(50, 50, 'tombstone').setScale(1.5, 1.5).setOrigin(0.5, 0.5).setDepth(12);
+        this.avatar = this.add.image(50, 50, 'kyciAvatar').setScale(0.3, 0.3).setOrigin(0.5, 0.5).setDepth(12);
+
         this.worldLayer.setCollisionByProperty({ collides: true });
 
         this.scene.setVisible(true);
@@ -320,7 +319,6 @@ export class GameSceneBase extends Phaser.Scene {
       var cam = this.cameras.main;
       const offsetX = cam._scrollX;
       const offsetY = cam._scrollY;
-      console.log(offsetY);
       const percent = this.player.health / this.player.maxHealth;
       this.fillRect(this.lifeBar, {
         x: offsetX + 100,

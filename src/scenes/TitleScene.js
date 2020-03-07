@@ -12,6 +12,8 @@ import charlocal_fight_down from '../assets/images/Character_SlashDownLeft-Sheet
 import charlocal_fight_up from '../assets/images/Character_SlashUpRight-Sheet.png';
 import charlocal_fight_left from '../assets/images/Character_SlashUpLeft-Sheet.png';
 import charlocal_fight_right from '../assets/images/Character_SlashDownRight-Sheet.png';
+import kyci from '../assets/images/kyci.png';
+
 
 import maplocal from '../assets/map.json';
 
@@ -33,6 +35,7 @@ export class TitleScene extends Phaser.Scene {
     preload() {
         this.load.image("tiles", tilesetlocal);
         this.load.tilemapTiledJSON("map", maplocal);
+        this.load.image('kyciAvatar', kyci);
         
         // An atlas is a way to pack multiple images together into one texture. I'm using it to load all
         // the player animations (walking left, walking right, etc.) in one image. For more info see:
@@ -52,6 +55,7 @@ export class TitleScene extends Phaser.Scene {
         // this.load.image('background', background);
     }
     create() {
+
         // this.background = this.add.tileSprite(0, 0, config.width, config.height, 'background');
         // this.background.setOrigin(0, 0);
         this.createMenu();
