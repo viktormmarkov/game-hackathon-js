@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-
+import { config } from '../index';
 export class GameSceneBase extends Phaser.Scene {
     constructor(key) {
         super({key})
@@ -16,25 +16,12 @@ export class GameSceneBase extends Phaser.Scene {
       .sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front")
       .setSize(30, 40)
       .setOffset(0, 24);
-      this.player.setDepth(9);
+      this.player.setDepth(config.playerDepth);
     }
-
-    create() {      
-        this.worldLayer.setCollisionByProperty({ collides: true });
       
     create() {
-        const map = this.make.tilemap({ key: "map" });
       
-        // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
-        // Phaser's cache (i.e. the name you used in preload)
-        const tileset = map.addTilesetImage("tileset", "tiles");
-      
-        // Parameters: layer name (or index) from Tiled, tileset, x, y
-        const belowLayer = map.createStaticLayer("bellow", tileset, 0, 0);
-        const worldLayer = map.createStaticLayer("world", tileset, 0, 0);
-        const aboveLayer = map.createStaticLayer("above", tileset, 0, 0);
-      
-        worldLayer.setCollisionByProperty({ collides: true });
+        this.worldLayer.setCollisionByProperty({ collides: true });
       
         // By default, everything gets depth sorted on the screen in the order we created things. Here, we
         // want the "Above Player" layer to sit on top of the player, so we explicitly give it a depth.
@@ -89,7 +76,7 @@ export class GameSceneBase extends Phaser.Scene {
     
 
     updatePlayer() {
-        const speed = 175;
+        const speed = config.playerSpeed;
         const prevVelocity = this.player.body.velocity.clone();
       
         // Stop any previous movement from the last frame
