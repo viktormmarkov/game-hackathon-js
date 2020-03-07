@@ -23,7 +23,8 @@ export class GameSceneBase extends Phaser.Scene {
       this.player.setDepth(config.playerDepth);
       this.player.body.immovable = true;
       this.player.health = 100;
-      this.player.radius = 20;
+      this.player.damage = 20;
+      this.player.direction = {x:0, y:0};
     }
       
     create() {

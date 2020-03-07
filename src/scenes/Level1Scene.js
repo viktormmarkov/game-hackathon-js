@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import {GameSceneBase} from './GameSceneBase';
+import hitzone from '../assets/images/hitzone.png';
 
 import {config} from '../index';
 const enemyXY = [{x: 50, y: 50}, {x: 100, y:100}, {x: 200, y:100}]
@@ -9,12 +10,13 @@ export class Level1Scene extends GameSceneBase {
     }
 
     preload() {
+        this.load.image('hitzone', hitzone);
         this.projectionAngle = Math.PI / 6;
     }
 
     create() {
         this.map = this.make.tilemap({ key: "map" });
-        this.enemiesCount = 1;
+        this.enemiesCount = 3;
         this.createPlayer();
       
         // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
@@ -33,26 +35,22 @@ export class Level1Scene extends GameSceneBase {
         this.enemiesGroup = this.physics.add.group();
         // this.events.on('wake', () => this.createEnemies());
         this.createEnemies();
-        this.polygonGroup = this.physics.add.group();
-        // this.physics.add.overlap(this.polygonGroup, this.enemyGroup, (obj1, obj2) => {
-        //         obj1.destroy();
-        //         obj2.destroy();
-        //   });
               
         this.input.keyboard.on('keydown_SPACE', event => {
             const player = this.player;
             const range = 20;
             const radius = 30;
-            const direction = player.direction;
-            const initialy = player.y - 100 // uglyhack;
+            const direction = player.direction || {x: 0, y:0};
+            const initialy = player.y // uglyhack;
             const x = direction.x ? player.x + range * direction.x : player.x;
             const y = initialy ? initialy + range * direction.y : initialy;
             const polygonPoints = [x,y, x + radius,y, x + radius,y + radius, x, y + radius];
-            const polygon = this.add.polygon(0, 100, polygonPoints, 0xff0000, 0.3).setDepth(config.playerDepth).setInteractive(true);
-            this.physics.add.overlap(polygon, this.enemyGroup, (obj1, obj2) => {
-                obj1.destroy();
-                obj2.destroy();
-                console.log('aaa');
+            // const polygon = this.add.polygon(0, 100, polygonPoints, 0xff0000, 0.3).setDepth(config.playerDepth);
+            this.hitzone = this.physics.add.sprite(x, y, 'hitzone');
+            this.physics.add.collider(this.hitzone, this.enemiesGroup, (phitzone, enemy) => {
+                phitzone.destroy();
+                enemy.health -= player.damage;
+                // console.log('aaa');
             }, null, this);
               
           });
@@ -87,6 +85,7 @@ export class Level1Scene extends GameSceneBase {
             enemy.body.immovable = true;
             enemy.lastHit = 0;
             enemy.damage = 2.5;
+            enemy.health = 40;
             this.enemiesGroup.add(enemy);
             this.enemies.push(enemy);
         }
@@ -159,16 +158,26 @@ export class Level1Scene extends GameSceneBase {
         if (this.player.health <= 0) {
             this.scene.start('EndGame');
         }
-        for (let i in this.enemies) {
-            const enemy = this.enemies[i];
-            if ( this.playerEnemyDelta(enemy) ) {
-                this.followPlayer(enemy);
+        this.enemies.forEach(enemy => {
+            if (enemy.health <= 0) {
+                enemy.destroy(); 
             } else {
-                enemy.anims.stop();
-                this.hitPlayer(enemy, this.player, time);
+                if ( this.playerEnemyDelta(enemy) ) {
+                    this.followPlayer(enemy);
+                } else {
+                    enemy.anims.stop();
+                    this.hitPlayer(enemy, this.player, time);
+                }
             }
+        });
+
+        this.enemies = this.enemies.filter(e => e.health > 0)
+        // if (this.hitzone) {
+        //     this.hitzone.destroy();
+        // }
+        if (this.enemies.length === 0) {
+            this.scene.start('EndGame');
         }
-        
         super.update();
     }
 }
