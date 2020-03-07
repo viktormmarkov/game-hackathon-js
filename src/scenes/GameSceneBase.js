@@ -22,8 +22,8 @@ export class GameSceneBase extends Phaser.Scene {
         .setOffset(0, 0);
       this.player.setDepth(config.playerDepth);
       this.player.body.immovable = true;
-      this.player.health = 100;
-      this.player.damage = 20;
+      this.player.health = 1000;
+      this.player.damage = 10;
       this.player.direction = {x:0, y:0};
     }
       
@@ -158,13 +158,8 @@ export class GameSceneBase extends Phaser.Scene {
         this.input.keyboard.on('keydown_SPACE', event => {
           this.triggerFightAnimation = true;
           this.isInFightAnimation = true;
-          this.fightAlarm = 15;
+          this.fightAlarm = 10;
         });
-
-        // this.player.on('animationcomplete', () => {
-        //   this.isInFightAnimation = false;
-        //   console.log("stop");
-        // })
     }
     
 
@@ -199,64 +194,59 @@ export class GameSceneBase extends Phaser.Scene {
         // Normalize and scale the velocity so that player can't move faster along a diagonal
         this.player.body.velocity.normalize().scale(speed);
       
+        // If we were moving, pick and idle frame to use
+        if (prevVelocity.x < 0)  {
+          this.player.direction = {y: 0, x: -1};
+        }
+        else if (prevVelocity.x > 0) {
+          this.player.direction = {y: 0, x: 1};
+        }
+        else if (prevVelocity.y < 0) {
+          this.player.direction = {y: -1, x: 0};
+        } 
+        else if (prevVelocity.y > 0) {
+          this.player.direction = {y: 1, x: 0};
+        }
+
         // Update the animation last and give left/right animations precedence over up/down animations
-        if (this.cursors.left.isDown) {
-          if (this.triggerFightAnimation){
+        if (this.triggerFightAnimation){
+          if (this.player.direction.x < 0) {
             this.player.anims.play("kyciFightLeft", true, 0);
+          } else if (this.player.direction.x > 0) {
+            this.player.anims.play("kyciFightRight", true, 0);
+          } else if (this.player.direction.y > 0) {
+            this.player.anims.play("kyciFightDown", true, 0);
+          } else if (this.player.direction.y < 0) {
+            this.player.anims.play("kyciFightUp", true, 0);
           }
-          else if (!this.isInFightAnimation){
+        }
+        if (this.cursors.left.isDown) {
+          if (!this.isInFightAnimation){
             this.player.anims.play("kyciLeft", true, 0);
           }
         } else if (this.cursors.right.isDown) {
-          if (this.triggerFightAnimation){
-            this.player.anims.play("kyciFightRight", true, 0);
-          }
-          else if (!this.isInFightAnimation){
+          if (!this.isInFightAnimation){
             this.player.anims.play("kyciRight", true, 0);
           }
         } else if (this.cursors.up.isDown) {
-          if (this.triggerFightAnimation){
-            this.player.anims.play("kyciFightUp", true, 0);
-          }
-          else if (!this.isInFightAnimation){
+          if (!this.isInFightAnimation){
             this.player.anims.play("kyciUp", true, 0);
           }
         } else if (this.cursors.down.isDown) {
-          if (this.triggerFightAnimation){
-            this.player.anims.play("kyciFightDown", true, 0);
-          }
-          else if (!this.isInFightAnimation){
+          if (!this.isInFightAnimation){
             this.player.anims.play("kyciDown", true, 0);
           }
         } else {
-          // If we were moving, pick and idle frame to use
-            if (prevVelocity.x < 0)  {
-              this.player.direction = {y: 0, x: -1};
-            }
-            else if (prevVelocity.x > 0) {
-              this.player.direction = {y: 0, x: 1};
-            }
-            else if (prevVelocity.y < 0) {
-              this.player.direction = {y: -1, x: 0};
-            } 
-            else if (prevVelocity.y > 0) {
-              this.player.direction = {y: 1, x: 0};
-            }
             if (!this.isInFightAnimation) {
               this.player.anims.stop();
               // If we were moving, pick and idle frame to use
-              if (prevVelocity.x < 0) this.player.setTexture("sprCharLeft", 0);
-              else if (prevVelocity.x > 0) this.player.setTexture("sprCharRight", 0);
-              else if (prevVelocity.y < 0) this.player.setTexture("sprCharUp", 0);
-              else if (prevVelocity.y > 0) this.player.setTexture("sprCharDown", 0);
+              if (this.player.direction.x < 0) this.player.setTexture("sprCharLeft", 0);
+              else if (this.player.direction.x > 0) this.player.setTexture("sprCharRight", 0);
+              else if (this.player.direction.y < 0) this.player.setTexture("sprCharUp", 0);
+              else if (this.player.direction.y > 0) this.player.setTexture("sprCharDown", 0);
             }
-            else if(this.triggerFightAnimation){
-              if (prevVelocity.x < 0) this.player.anims.play("kyciFightLeft", true, 0);
-              else if (prevVelocity.x > 0) this.player.anims.play("kyciFightRight", true, 0);
-              else if (prevVelocity.y < 0) this.player.anims.play("kyciFightUp", true, 0);
-              else if (prevVelocity.y > 0) this.player.anims.play("kyciFightDown", true, 0);
-            }
-        }
+          }
+        
         this.triggerFightAnimation = false;
     }
 
