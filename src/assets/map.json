@@ -46,15 +46,15 @@
          "name":"Objects",
          "objects":[
                 {
-                 "height":9.47470522176775,
+                 "height":9.47471,
                  "id":1,
                  "name":"Spawn Point",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":8.495191789871,
-                 "x":726.448216420258,
-                 "y":624.657216420258
+                 "width":8.49519,
+                 "x":726.448,
+                 "y":624.657
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1509,7 +1509,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -1518,7 +1518,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -1626,7 +1626,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -1635,7 +1635,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
