@@ -165,6 +165,11 @@ DialogModalPlugin.prototype = {
         this.scene.scene.destroy();
     }
   },
+
+  getDialogIndex() {
+    return this.dialogIndex;
+  },
+
   // Sets the text for the dialog window
   setText: function (text, animate) {
     // Reset the dialog

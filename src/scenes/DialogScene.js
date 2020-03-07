@@ -21,8 +21,10 @@ export class DialogScene extends Phaser.Scene {
 
         //get image by key
         // this.add.image(0, 0, opts.action).setOrigin(0, 0);
-        this.add.image(0, 0, 'kyciAvatar1').setOrigin(0, 0);
-        this.add.image(200, 200, 'penkaAvatar1').setOrigin(0, 0);
+        this.characters = {
+            'kyci': this.add.sprite(0, 0, 'kyciAvatar1').setOrigin(0, 0),
+            'penka': this.add.sprite(200, 0, 'penkaAvatar1').setOrigin(0, 0)
+        }
 
         this.dialog = Dialogs['scene1'];
         // this.dialog = Dialogs[opts.action];
@@ -34,7 +36,13 @@ export class DialogScene extends Phaser.Scene {
         
         this.input.keyboard.on('keyup_SPACE', () => {
             if (this.scene.scene !== null) {
+                const prevIndex = this.DialogModalPlugin.getDialogIndex();
                 this.DialogModalPlugin.showNextText();
+                const index = this.DialogModalPlugin.getDialogIndex();
+                const currentc = this.dialog[index].character;
+                const previousc =  this.dialog[prevIndex].character
+                this.characters[currentc].setAlpha(1);
+                this.characters[previousc].setAlpha(0.6);
             }
         });
 
