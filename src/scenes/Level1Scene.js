@@ -25,21 +25,56 @@ export class Level1Scene extends GameSceneBase {
         this.belowLayer = this.map.createStaticLayer("bellow", tileset, 0, 0);
         this.worldLayer = this.map.createStaticLayer("world", tileset, 0, 0);
         this.aboveLayer = this.map.createStaticLayer("above", tileset, 0, 0);
-        super.create();  
-
-        const spawnPoint = {
-            x: 352,
-            y: 1216
-        };
         this.delta = {
             x: 60,
             y: 60
         }
         this.enemies = [];
         this.enemiesGroup = this.physics.add.group();
-
         // this.events.on('wake', () => this.createEnemies());
         this.createEnemies();
+        this.polygonGroup = this.physics.add.group();
+        // this.physics.add.overlap(this.polygonGroup, this.enemyGroup, (obj1, obj2) => {
+        //         obj1.destroy();
+        //         obj2.destroy();
+        //   });
+              
+        this.input.keyboard.on('keydown_SPACE', event => {
+            const player = this.player;
+            const range = 20;
+            const radius = 30;
+            const direction = player.direction;
+            const initialy = player.y - 100 // uglyhack;
+            const x = direction.x ? player.x + range * direction.x : player.x;
+            const y = initialy ? initialy + range * direction.y : initialy;
+            const polygonPoints = [x,y, x + radius,y, x + radius,y + radius, x, y + radius];
+            const polygon = this.add.polygon(0, 100, polygonPoints, 0xff0000, 0.3).setDepth(config.playerDepth).setInteractive(true);
+            this.physics.add.overlap(polygon, this.enemyGroup, (obj1, obj2) => {
+                obj1.destroy();
+                obj2.destroy();
+                console.log('aaa');
+            }, null, this);
+              
+          });
+  
+          this.input.keyboard.once("keydown_D", event => {
+            // Turn on physics debugging to show player's hitbox
+            this.physics.world.createDebugGraphic();
+        
+            // Create worldLayer collision graphic above the player, but below the help text
+            const graphics = this.add
+              .graphics()
+              .setAlpha(0.75)
+              .setDepth(20);
+            this.worldLayer.renderDebug(graphics, {
+              tileColor: null, // Color of non-colliding tiles
+              collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+              faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+            });
+          });
+  
+        super.create();  
+
     }
 
     createEnemies(sprite = 'misa-front') {
@@ -51,6 +86,7 @@ export class Level1Scene extends GameSceneBase {
                 .setDepth(config.playerDepth);
             enemy.body.immovable = true;
             enemy.lastHit = 0;
+            enemy.damage = 2.5;
             this.enemiesGroup.add(enemy);
             this.enemies.push(enemy);
         }
@@ -115,12 +151,14 @@ export class Level1Scene extends GameSceneBase {
             enemy.lastHit = time;
     
             // Get bullet from bullets group
-            player.health --;
-            console.log(player.health);
+            player.health -= enemy.damage;
         }
     }
 
-    update(time) {
+    update(time) { 
+        if (this.player.health <= 0) {
+            this.scene.start('EndGame');
+        }
         for (let i in this.enemies) {
             const enemy = this.enemies[i];
             if ( this.playerEnemyDelta(enemy) ) {

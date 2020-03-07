@@ -3,7 +3,7 @@ import { config } from '../index';
 
 export class GameSceneBase extends Phaser.Scene {
     constructor(key) {
-        super({key})
+      super({key})
     }
    
     preload() {
@@ -19,10 +19,11 @@ export class GameSceneBase extends Phaser.Scene {
       this.player = this.physics.add
         .sprite(spawnPoint.x, spawnPoint.y, "sprCharDown", "kyciDown")
         .setSize(30, 40)
-        .setOffset(0, 24);
+        .setOffset(0, 0);
       this.player.setDepth(config.playerDepth);
       this.player.body.immovable = true;
       this.player.health = 100;
+      this.player.radius = 20;
     }
       
     create() {
@@ -110,11 +111,6 @@ export class GameSceneBase extends Phaser.Scene {
         camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
       
         this.cursors = this.input.keyboard.createCursorKeys();
-      
-        this.input.keyboard.on('keydown_SPACE', event => {
-            console.log('shoot');
-        });
-
         
         this.events.once('wake', () => {
           this.aboveLayer.setDepth(0);
@@ -167,12 +163,23 @@ export class GameSceneBase extends Phaser.Scene {
         } else {
           this.player.anims.stop();
           // If we were moving, pick and idle frame to use
-        if (prevVelocity.x < 0) this.player.setTexture("sprCharLeft", "kyciLeft");
-        else if (prevVelocity.x > 0) this.player.setTexture("sprCharRight", "kyciRight");
-        else if (prevVelocity.y < 0) this.player.setTexture("sprCharUp", "kyciUp");
-        else if (prevVelocity.y > 0) this.player.setTexture("sprCharDown", "kyciDown");
+        if (prevVelocity.x < 0)  {
+          this.player.direction = {y: 0, x: -1};
+          this.player.setTexture("sprCharLeft", "kyciLeft");
         }
-        
+        else if (prevVelocity.x > 0) {
+          this.player.direction = {y: 0, x: 1};
+          this.player.setTexture("sprCharRight", "kyciRight");
+        }
+        else if (prevVelocity.y < 0) {
+          this.player.direction = {y: -1, x: 0};
+          this.player.setTexture("sprCharUp", "kyciUp");
+        } 
+        else if (prevVelocity.y > 0) {
+          this.player.direction = {y: 1, x: 0};
+          this.player.setTexture("sprCharDown", "kyciDown");
+        }
+      }
     }
 
     update() {

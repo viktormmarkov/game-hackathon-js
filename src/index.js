@@ -4,13 +4,15 @@ import { TitleScene } from "./scenes/TitleScene";
 import { OptionsScene } from "./scenes/OptionsScene";
 import { Level1Scene } from "./scenes/Level1Scene";
 import { DialogScene } from "./scenes/DialogScene";
+import { EndGame } from "./scenes/EndGame";
+
 
 export const config = {
   type: Phaser.AUTO,
   parent: "phaser-example",
   width: 1088,
   height: 1088,
-  scene: [TitleScene, DialogScene, Level1Scene, OptionsScene],
+  scene: [TitleScene, DialogScene, Level1Scene, OptionsScene, EndGame],
   physics: {
     default: "arcade",
     arcade: {
