@@ -5,40 +5,35 @@ export class GameSceneBase extends Phaser.Scene {
         super({key})
     }
    
-      
-    create() {
-        const map = this.make.tilemap({ key: "map" });
-      
-        // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
-        // Phaser's cache (i.e. the name you used in preload)
-        const tileset = map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles");
-      
-        // Parameters: layer name (or index) from Tiled, tileset, x, y
-        const belowLayer = map.createStaticLayer("Below Player", tileset, 0, 0);
-        const worldLayer = map.createStaticLayer("World", tileset, 0, 0);
-        const aboveLayer = map.createStaticLayer("Above Player", tileset, 0, 0);
-      
-        worldLayer.setCollisionByProperty({ collides: true });
+    createPlayer() {   
+      // Create a sprite with physics enabled via the physics system. The image used for the sprite has
+ 
+      // Object layers in Tiled let you embed extra info into a map - like a spawn point or custom
+      // collision shapes. In the tmx file, there's an object layer with a point named "Spawn Point"
+      const spawnPoint = this.map.findObject("Objects", obj => obj.name === "Spawn Point");
+      // a bit of whitespace, so I'm using setSize & setOffset to control the size of the player's body.
+      this.player = this.physics.add
+      .sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front")
+      .setSize(30, 40)
+      .setOffset(0, 24);
+      this.player.setDepth(9);
+    }
+
+    create() {      
+        this.worldLayer.setCollisionByProperty({ collides: true });
       
         // By default, everything gets depth sorted on the screen in the order we created things. Here, we
         // want the "Above Player" layer to sit on top of the player, so we explicitly give it a depth.
         // Higher depths will sit on top of lower depth objects.
-        aboveLayer.setDepth(10);
-      
-        // Object layers in Tiled let you embed extra info into a map - like a spawn point or custom
-        // collision shapes. In the tmx file, there's an object layer with a point named "Spawn Point"
-        const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
-      
-        // Create a sprite with physics enabled via the physics system. The image used for the sprite has
-        // a bit of whitespace, so I'm using setSize & setOffset to control the size of the player's body.
-        this.player = this.physics.add
-          .sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front")
-          .setSize(30, 40)
-          .setOffset(0, 24);
-      
+        this.aboveLayer.setDepth(10);
+
+    
         // Watch the player and worldLayer for collisions, for the duration of the scene:
-        this.physics.add.collider(this.player, worldLayer);
+        this.physics.add.collider(this.player, this.worldLayer);
       
+        const indexes = this.worldLayer.getTilesWithin().filter(tile => tile.properties.collides).map(tile => tile.index);
+        this.worldLayer.setTileIndexCallback(indexes, (player, tile) => console.log(tile.properties.action));
+        
         // Create the player's walking animations from the texture atlas. These are stored in the global
         // animation manager so any sprite can access them.
         const anims = this.anims;
@@ -69,24 +64,13 @@ export class GameSceneBase extends Phaser.Scene {
       
         const camera = this.cameras.main;
         camera.startFollow(this.player);
-        camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+        camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
       
         this.cursors = this.input.keyboard.createCursorKeys();
       
         this.input.keyboard.on('keydown_SPACE', event => {
             console.log('shoot');
         });
-
-        this.enemy = this.physics.add
-            .sprite(spawnPoint.x + 40, spawnPoint.y - 40, "atlas", "misa-front")
-            .setSize(30, 40)
-            .setOffset(0, 24);
-
-        this.physics.add.collider(this.enemy, worldLayer);
-        // this.physics.add.collider(this.enemy, this.player);
-        this.physics.add.overlap(this.enemy, this.player, () => {
-            console.log('aaa')
-        })
     }
     
 
@@ -133,19 +117,7 @@ export class GameSceneBase extends Phaser.Scene {
         }
     }
 
-    updateEnemies() {
-        const speed = 20;
-        const playerPosition = this.player.getTopCenter()
-        // console.log(playerPosition);
-        const enemyPosition = this.enemy.getTopCenter();
-        // console.log(enemyPosition);
-        // debugger;
-        // this.enemy.body.setVelocity(enemyPosition.x + 1, enemyPosition.y - 1);
-        
-    }
-      
     update() {
         this.updatePlayer();
-        this.updateEnemies();
     }
 }
