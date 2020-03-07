@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 import _ from 'lodash';
 import { config } from '../index';
-import background from '../assets/images/logo.png';
 import tilesetlocal from '../assets/images/tileset.png';
 import charlocal_down from '../assets/images/Character_Down-Sheet.png';
 import charlocal_up from '../assets/images/Character_Up-Sheet.png';
@@ -13,7 +12,8 @@ import charlocal_fight_up from '../assets/images/Character_SlashUpRight-Sheet.pn
 import charlocal_fight_left from '../assets/images/Character_SlashUpLeft-Sheet.png';
 import charlocal_fight_right from '../assets/images/Character_SlashDownRight-Sheet.png';
 import kyci from '../assets/images/kyci.png';
-
+import slap from '../assets/audio/slap2.wav';
+import grunt from '../assets/audio/grunt.wav';
 
 import maplocal from '../assets/map.json';
 
@@ -36,7 +36,8 @@ export class TitleScene extends Phaser.Scene {
         this.load.image("tiles", tilesetlocal);
         this.load.tilemapTiledJSON("map", maplocal);
         this.load.image('kyciAvatar', kyci);
-        
+        this.load.audio('slap', slap);
+        this.load.audio('grunt', grunt);
         // An atlas is a way to pack multiple images together into one texture. I'm using it to load all
         // the player animations (walking left, walking right, etc.) in one image. For more info see:
         //  https://labs.phaser.io/view.html?src=src/animation/texture%20atlas%20animation.js

@@ -79,7 +79,7 @@ export class Level1Scene extends GameSceneBase {
                 // const powerup = this.add.sprite(enemy.x, enemy.y, 'hitzone').setOrigin(0.5, 0.5);
                 console.log(this.player);
                 this.physics.add.overlap(this.hitzone, this.player, () => {
-                    console.log('overlaaap');
+                    this.hitzone.destroy();
                 });
             })
             this.enemiesGroup.add(enemy);
@@ -142,6 +142,7 @@ export class Level1Scene extends GameSceneBase {
             enemy.lastHit = time;
             // Get bullet from bullets group
             player.health -= enemy.damage;
+            this.sound.play('grunt');
         }
     }
 

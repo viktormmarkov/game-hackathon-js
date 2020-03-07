@@ -205,6 +205,7 @@ export class GameSceneBase extends Phaser.Scene {
           phitzone.destroy();
           enemy.health -= player.damage;
       });
+      this.sound.play('slap');
     }
 
     fillRect(graphics, {x,y,percent,height, width, color, borderColor}) {
