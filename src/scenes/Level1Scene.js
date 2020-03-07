@@ -14,7 +14,7 @@ export class Level1Scene extends GameSceneBase {
 
     create() {
         this.map = this.make.tilemap({ key: "map" });
-        this.enemiesCount = 3;
+        this.enemiesCount = 1;
         this.createPlayer();
       
         // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
@@ -38,7 +38,8 @@ export class Level1Scene extends GameSceneBase {
         this.enemies = [];
         this.enemiesGroup = this.physics.add.group();
 
-        this.events.on('wake', () => this.createEnemies());
+        // this.events.on('wake', () => this.createEnemies());
+        this.createEnemies();
     }
 
     createEnemies(sprite = 'misa-front') {
@@ -49,6 +50,7 @@ export class Level1Scene extends GameSceneBase {
                 .setOffset(0, 24)
                 .setDepth(config.playerDepth);
             enemy.body.immovable = true;
+            enemy.lastHit = 0;
             this.enemiesGroup.add(enemy);
             this.enemies.push(enemy);
         }
@@ -61,6 +63,7 @@ export class Level1Scene extends GameSceneBase {
         return Math.abs(this.player.x - enemy.x) > this.delta.x ||
             Math.abs(this.player.y - enemy.y) > this.delta.y;
     }
+
     followPlayer(enemy) {
         const speed = config.enemySpeed;
 
@@ -101,12 +104,30 @@ export class Level1Scene extends GameSceneBase {
         enemy.body.velocity.normalize().scale(speed);
     }
 
-    update() {
+    hitPlayer(enemy, player, time) {
+        if (enemy.active === false)
+        {
+            return;
+        }
+    
+        if ((time - enemy.lastHit) > 1000)
+        {
+            enemy.lastHit = time;
+    
+            // Get bullet from bullets group
+            player.health --;
+            console.log(player.health);
+        }
+    }
+
+    update(time) {
         for (let i in this.enemies) {
-            if ( this.playerEnemyDelta(this.enemies[i]) ) {
-                this.followPlayer(this.enemies[i]);
+            const enemy = this.enemies[i];
+            if ( this.playerEnemyDelta(enemy) ) {
+                this.followPlayer(enemy);
             } else {
-                this.enemies[i].anims.stop();
+                enemy.anims.stop();
+                this.hitPlayer(enemy, this.player, time);
             }
         }
         

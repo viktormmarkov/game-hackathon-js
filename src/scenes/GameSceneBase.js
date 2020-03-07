@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import { config } from '../index';
 
-
 export class GameSceneBase extends Phaser.Scene {
     constructor(key) {
         super({key})
@@ -23,10 +22,10 @@ export class GameSceneBase extends Phaser.Scene {
         .setOffset(0, 24);
       this.player.setDepth(config.playerDepth);
       this.player.body.immovable = true;
+      this.player.health = 100;
     }
       
     create() {
-      
         this.worldLayer.setCollisionByProperty({ collides: true });
 
         this.scene.setVisible(true);
@@ -40,7 +39,6 @@ export class GameSceneBase extends Phaser.Scene {
 
         // Watch the player and worldLayer for collisions, for the duration of the scene:
         this.physics.add.collider(this.player, this.worldLayer);
-      
 
         const indexes = this.worldLayer.getTilesWithin().filter(tile => tile.properties.collides).map(tile => tile.index);
         this.worldLayer.setTileIndexCallback(indexes, (player, tile) => {
