@@ -73,7 +73,7 @@ export class Level1Scene extends GameSceneBase {
         // const powerup = this.add.sprite(enemy.x, enemy.y, 'powerup').setOrigin(0.5, 0.5);
         this.physics.add.overlap(this.powerup, this.player, () => {
             this.powerup.destroy();
-            const text = this.add.text(this.powerup.x, this.powerup.y, '+10dmg', fontStyle).setOrigin(0,0)
+            const text = this.add.text(this.powerup.x, this.powerup.y, '+10dmg', fontStyle).setOrigin(0.5, 0.5)
             this.tweens.add({
                 targets: text,
                 scale: { from: 1, to: 0},
