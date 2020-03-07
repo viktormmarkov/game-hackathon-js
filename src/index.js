@@ -7,8 +7,8 @@ import { Level1Scene } from "./scenes/Level1Scene";
 export const config = {
   type: Phaser.AUTO,
   parent: "phaser-example",
-  width: 800,
-  height: 600,
+  width: 1088,
+  height: 1088,
   scene: [TitleScene, Level1Scene, OptionsScene],
   physics: {
     default: "arcade",
@@ -16,7 +16,16 @@ export const config = {
       gravity: { y: 0 } // Top down game, so no gravity
     },
   },
-  pixelArt: true,
+  // scale: {
+  //   mode: Phaser.Scale.CENTER_BOTH,
+  //   parent: 'phaser-example',
+  //   autoCenter: Phaser.Scale.CENTER_BOTH,
+  //   width: 1000,
+  //   height: 1088,
+  // }, 
+  render: {
+    pixelArt: true,
+  },
   playerSpeed: 175,
   enemySpeed: 90,
   playerDepth: 9,

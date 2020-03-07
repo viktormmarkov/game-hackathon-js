@@ -31,9 +31,7 @@ export class Level1Scene extends GameSceneBase {
         }
         this.enemies = [];
         this.enemiesGroup = this.physics.add.group();
-        this.physics.add.collider(this.enemiesGroup, this.player);
-        this.physics.add.collider(this.enemiesGroup, this.enemiesGroup);
-        this.physics.add.collider(this.enemiesGroup, this.worldLayer);
+       
         this.createEnemies();
     }
 
@@ -48,10 +46,13 @@ export class Level1Scene extends GameSceneBase {
             this.enemiesGroup.add(enemy);
             this.enemies.push(enemy);
         }
+        this.physics.add.collider(this.enemiesGroup, this.player);
+        this.physics.add.collider(this.enemiesGroup, this.enemiesGroup);
+        this.physics.add.collider(this.enemiesGroup, this.worldLayer);
     }
 
     playerEnemyDelta(enemy) {
-        return Math.abs(this.player.x - enemy.x) > this.delta.x || 
+        return Math.abs(this.player.x - enemy.x) > this.delta.x ||
             Math.abs(this.player.y - enemy.y) > this.delta.y;
     }
     followPlayer(enemy) {
