@@ -10,8 +10,8 @@ import { EndGame } from "./scenes/EndGame";
 export const config = {
   type: Phaser.AUTO,
   parent: "phaser-example",
-  width: 1088,
-  height: 1088,
+  width: 1802,
+  height: 1020,
   scene: [TitleScene, DialogScene, Level1Scene, OptionsScene, EndGame],
   physics: {
     default: "arcade",
