@@ -87,6 +87,11 @@ export class GameSceneBase extends Phaser.Scene {
         this.input.keyboard.on('keydown_SPACE', event => {
             console.log('shoot');
         });
+
+        
+        this.events.once('wake', () => {
+          this.input.keyboard.removeKey('keyup_SPACE')
+        });
     }
     
 

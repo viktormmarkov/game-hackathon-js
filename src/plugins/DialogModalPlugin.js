@@ -153,17 +153,16 @@ DialogModalPlugin.prototype = {
     this.dialogIndex = 0;
     this.setText(this.dialogArray[this.dialogIndex].text, true);
   },
-  setNextScene: function(scene, nextScene) {
+  setNextScene: function(nextScene) {
     this.nextScene = nextScene;
-    this.scene2 = scene;
   },
   showNextText() {
     if (this.dialogIndex + 1 <= this.dialogArray.length - 1) {
       this.setText(this.dialogArray[++this.dialogIndex].text, true);
     } else {
         this.setText("finished", true);
-        this.scene2.shutdown();
-        this.scene2.wake(this.nextScene);
+        this.scene.scene.wake(this.nextScene);
+        this.scene.scene.destroy();
     }
   },
   // Sets the text for the dialog window

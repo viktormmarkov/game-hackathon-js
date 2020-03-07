@@ -22,10 +22,12 @@ export class DialogScene extends Phaser.Scene {
         this.dialogIndex = 0;
         this.DialogModalPlugin.init();
         this.DialogModalPlugin.setDialog(this.dialog);
-        this.DialogModalPlugin.setNextScene(this.scene, opts.nextSceneKey);
-
-        this.input.keyboard.on('keydown_SPACE', event => {
-           this.DialogModalPlugin.showNextText();
+        this.DialogModalPlugin.setNextScene(opts.nextSceneKey);
+        
+        this.input.keyboard.on('keyup_SPACE', () => {
+           if (this.scene.scene !== null) {
+            this.DialogModalPlugin.showNextText();
+           }
         });
     }
 }
