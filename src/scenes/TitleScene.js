@@ -2,7 +2,8 @@ import Phaser from 'phaser'
 import _ from 'lodash';
 import { config } from '../index';
 import background from '../assets/images/logo.png';
-import tilemapJson from '../json.json';
+import tilesetlocal from '../assets/images/tileset.png';
+import maplocal from '../assets/map.json';
 
 const fontSize = 25;
 const menuItemStyle = {fontSize: `${fontSize}px`};
@@ -20,9 +21,9 @@ export class TitleScene extends Phaser.Scene {
         super({key: 'TitleScene'});
     }
     preload() {
-        this.load.image("tiles", "https://www.mikewesthad.com/phaser-3-tilemap-blog-posts/post-1/assets/tilesets/tuxmon-sample-32px-extruded.png");
-        this.load.tilemapTiledJSON("map", tilemapJson);
-      
+        this.load.image("tiles", tilesetlocal);
+        this.load.tilemapTiledJSON("map", maplocal);
+        
         // An atlas is a way to pack multiple images together into one texture. I'm using it to load all
         // the player animations (walking left, walking right, etc.) in one image. For more info see:
         //  https://labs.phaser.io/view.html?src=src/animation/texture%20atlas%20animation.js

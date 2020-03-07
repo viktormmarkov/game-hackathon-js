@@ -1,10 +1,18 @@
 import Phaser from 'phaser';
+import { config } from '../index';
+
+import scene1 from '../assets/images/dialog_scene_1.jpg'
+import scene1Dialog from '../assets/dialogs/scene1.json'
 
 export class GameSceneBase extends Phaser.Scene {
     constructor(key) {
         super({key})
     }
    
+    preload() {
+      this.load.image('scene1', scene1);
+      this.load.json('scene1Dialog', scene1Dialog);
+    }
     createPlayer() {   
       // Create a sprite with physics enabled via the physics system. The image used for the sprite has
  
@@ -13,13 +21,15 @@ export class GameSceneBase extends Phaser.Scene {
       const spawnPoint = this.map.findObject("Objects", obj => obj.name === "Spawn Point");
       // a bit of whitespace, so I'm using setSize & setOffset to control the size of the player's body.
       this.player = this.physics.add
-      .sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front")
-      .setSize(30, 40)
-      .setOffset(0, 24);
-      this.player.setDepth(9);
+        .sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front")
+        .setSize(30, 40)
+        .setOffset(0, 24);
+      this.player.setDepth(config.playerDepth);
+      this.player.body.immovable = true;
     }
-
-    create() {      
+      
+    create() {
+      
         this.worldLayer.setCollisionByProperty({ collides: true });
       
         // By default, everything gets depth sorted on the screen in the order we created things. Here, we
@@ -33,7 +43,17 @@ export class GameSceneBase extends Phaser.Scene {
       
         const indexes = this.worldLayer.getTilesWithin().filter(tile => tile.properties.collides).map(tile => tile.index);
         this.worldLayer.setTileIndexCallback(indexes, (player, tile) => console.log(tile.properties.action));
-        
+          
+        const indexes = this.worldLayer.getTilesWithin().filter(tile => tile.properties.collides).map(tile => tile.index);
+        this.worldLayer.setTileIndexCallback(indexes, (player, tile) => {
+            if (tile.properties.action) {
+                this.scene.sleep(this.key);
+                this.resetMovementButtons();
+                this.scene.launch('DialogScene', {image: tile.properties.action, dialog: tile.properties.action + 'Dialog', nextSceneKey: this.key})
+            }
+            delete tile.properties.action;
+        }); 
+
         // Create the player's walking animations from the texture atlas. These are stored in the global
         // animation manager so any sprite can access them.
         const anims = this.anims;
@@ -75,7 +95,7 @@ export class GameSceneBase extends Phaser.Scene {
     
 
     updatePlayer() {
-        const speed = 175;
+        const speed = config.playerSpeed;
         const prevVelocity = this.player.body.velocity.clone();
       
         // Stop any previous movement from the last frame

@@ -16,7 +16,10 @@ export const config = {
     arcade: {
       gravity: { y: 0 } // Top down game, so no gravity
     }
-  }
+  },
+  playerSpeed: 175,
+  enemySpeed: 90,
+  playerDepth: 9,
 };
 
 const game = new Phaser.Game(config);

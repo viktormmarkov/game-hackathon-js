@@ -11,9 +11,11 @@ export class DialogScene extends Phaser.Scene {
     }
 
     create(opts) {
-        this.add.image(0, 0, opts.image).setOrigin(0, 0);
+        debugger;
+        //get image by key
+        this.add.image(0, 0, this.game.cache.get(opts.image)).setOrigin(0, 0);
 
-        this.dialog = opts.dialog.dialog;
+        this.dialog = this.game.cache.get(opts.dialog).dialog;
         this.dialogIndex = 0;
         this.DialogModalPlugin.init();
         this.DialogModalPlugin.setDialog(this.dialog);
