@@ -36,37 +36,22 @@ export class Level1Scene extends GameSceneBase {
         // this.events.on('wake', () => this.createEnemies());
         this.createEnemies();
               
-        this.input.keyboard.on('keydown_SPACE', event => {
-            const player = this.player;
-            const range = player.range;
-            const direction = player.direction || {x: 0, y:0};
-            const initialy = player.y // uglyhack;
-            const x = direction.x ? player.x + range * direction.x : player.x;
-            const y = initialy ? initialy + range * direction.y : initialy;
-            this.hitzone && this.hitzone.destroy();
-            this.hitzone = this.physics.add.sprite(x, y, 'hitzone');
-            this.physics.add.collider(this.hitzone, this.enemiesGroup, (phitzone, enemy) => {
-                phitzone.destroy();
-                enemy.health -= player.damage;
-            });
-              
-          });
   
-          this.input.keyboard.once("keydown_D", event => {
-            // Turn on physics debugging to show player's hitbox
-            this.physics.world.createDebugGraphic();
-        
-            // Create worldLayer collision graphic above the player, but below the help text
-            const graphics = this.add
-              .graphics()
-              .setAlpha(0.75)
-              .setDepth(20);
-            this.worldLayer.renderDebug(graphics, {
-              tileColor: null, // Color of non-colliding tiles
-              collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-              faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-            });
-          });
+        this.input.keyboard.once("keydown_D", event => {
+        // Turn on physics debugging to show player's hitbox
+        this.physics.world.createDebugGraphic();
+    
+        // Create worldLayer collision graphic above the player, but below the help text
+        const graphics = this.add
+            .graphics()
+            .setAlpha(0.75)
+            .setDepth(20);
+        this.worldLayer.renderDebug(graphics, {
+            tileColor: null, // Color of non-colliding tiles
+            collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+            faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+        });
+        });
   
         super.create();  
 

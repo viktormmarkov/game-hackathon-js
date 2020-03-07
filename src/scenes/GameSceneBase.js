@@ -9,25 +9,6 @@ export class GameSceneBase extends Phaser.Scene {
     preload() {
     }
 
-    createPlayer() {   
-      // Create a sprite with physics enabled via the physics system. The image used for the sprite has
- 
-      // Object layers in Tiled let you embed extra info into a map - like a spawn point or custom
-      // collision shapes. In the tmx file, there's an object layer with a point named "Spawn Point"
-      const spawnPoint = this.map.findObject("Objects", obj => obj.name === "Spawn Point");
-      // a bit of whitespace, so I'm using setSize & setOffset to control the size of the player's body.
-      this.player = this.physics.add
-        .sprite(spawnPoint.x, spawnPoint.y, "sprCharDown", 0)
-        .setSize(30, 40)
-        .setOffset(0, 0);
-      this.player.setDepth(config.playerDepth);
-      this.player.body.immovable = true;
-      this.player.health = 100;
-      this.player.damage = 20;
-      this.player.range = 20;
-      this.player.direction = {x:0, y:0};
-    }
-      
     create() {
         this.worldLayer.setCollisionByProperty({ collides: true });
 
@@ -157,6 +138,7 @@ export class GameSceneBase extends Phaser.Scene {
         this.fightAlarm = -1;
 
         this.input.keyboard.on('keydown_SPACE', event => {
+          this.hitEnemy();
           this.triggerFightAnimation = true;
           this.isInFightAnimation = true;
           this.fightAlarm = 15;
@@ -167,6 +149,40 @@ export class GameSceneBase extends Phaser.Scene {
         //   console.log("stop");
         // })
     }
+
+    createPlayer() {   
+      // Create a sprite with physics enabled via the physics system. The image used for the sprite has
+ 
+      // Object layers in Tiled let you embed extra info into a map - like a spawn point or custom
+      // collision shapes. In the tmx file, there's an object layer with a point named "Spawn Point"
+      const spawnPoint = this.map.findObject("Objects", obj => obj.name === "Spawn Point");
+      // a bit of whitespace, so I'm using setSize & setOffset to control the size of the player's body.
+      this.player = this.physics.add
+        .sprite(spawnPoint.x, spawnPoint.y, "sprCharDown", 0)
+        .setSize(30, 40)
+        .setOffset(0, 0);
+      this.player.setDepth(config.playerDepth);
+      this.player.body.immovable = true;
+      this.player.health = 100;
+      this.player.damage = 20;
+      this.player.range = 20;
+      this.player.direction = {x:0, y:0};
+    }
+
+    hitEnemy() {
+      const player = this.player;
+      const range = player.range;
+      const direction = player.direction || {x: 0, y:0};
+      const initialy = player.y // uglyhack;
+      const x = direction.x ? player.x + range * direction.x : player.x;
+      const y = initialy ? initialy + range * direction.y : initialy;
+      this.hitzone && this.hitzone.destroy();
+      this.hitzone = this.physics.add.sprite(x, y, 'hitzone');
+      this.physics.add.collider(this.hitzone, this.enemiesGroup, (phitzone, enemy) => {
+          phitzone.destroy();
+          enemy.health -= player.damage;
+      });
+  }
     
 
     updatePlayer() {
