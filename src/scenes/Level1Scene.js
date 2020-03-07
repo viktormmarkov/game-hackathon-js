@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import {GameSceneBase} from './GameSceneBase';
 import hitzone from '../assets/images/hitzone.png';
+import tombstone from '../assets/images/tombstone.png';
 
 import {config} from '../index';
 const enemyXY = [{x: 50, y: 50}, {x: 100, y:100}, {x: 200, y:100}]
@@ -11,6 +12,7 @@ export class Level1Scene extends GameSceneBase {
 
     preload() {
         this.load.image('hitzone', hitzone);
+        this.load.image('tombstone', tombstone);
         this.projectionAngle = Math.PI / 6;
     }
 
@@ -71,11 +73,11 @@ export class Level1Scene extends GameSceneBase {
             enemy.on('destroy', () => {
                 const sumX = this.player.x > enemy.x ? -20 : 20;
                 const sumY = this.player.y > enemy.y ? -20 : 20;
-                this.powerup = this.physics.add.sprite(enemy.x + sumX * (Math.random()), enemy.y + sumY * (Math.random()) , 'hitzone');
+                this.powerup = this.physics.add.sprite(enemy.x + sumX * (Math.random()), enemy.y + sumY * (Math.random()) , 'tombstone');
 
                 // const powerup = this.add.sprite(enemy.x, enemy.y, 'hitzone').setOrigin(0.5, 0.5);
                 console.log(this.player);
-                this.physics.add.collider(this.powerup, this.player, () => {
+                this.physics.add.overlap(this.powerup, this.player, () => {
                     console.log('overlaaap');
                     this.player.health = 0;
                 });
