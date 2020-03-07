@@ -79,7 +79,7 @@ export class Level1Scene extends GameSceneBase {
                 console.log(this.player);
                 this.physics.add.overlap(this.powerup, this.player, () => {
                     console.log('overlaaap');
-                    this.player.health = 0;
+                    // this.player.health = 0;
                 });
             })
             this.enemiesGroup.add(enemy);

@@ -49,11 +49,11 @@ export class TitleScene extends Phaser.Scene {
         this.load.spritesheet("sprCharFightUp", charlocal_fight_up, {frameWidth: 34, frameHeight: 44})
         this.load.spritesheet("sprCharFightLeft", charlocal_fight_left, {frameWidth: 34, frameHeight: 40})
         this.load.spritesheet("sprCharFightRight", charlocal_fight_right, {frameWidth: 34, frameHeight: 40})
-        this.load.image('background', background);
+        // this.load.image('background', background);
     }
     create() {
-        this.background = this.add.tileSprite(0, 0, config.width, config.height, 'background');
-        this.background.setOrigin(0, 0);
+        // this.background = this.add.tileSprite(0, 0, config.width, config.height, 'background');
+        // this.background.setOrigin(0, 0);
         this.createMenu();
     }
 
@@ -78,6 +78,6 @@ export class TitleScene extends Phaser.Scene {
        
     }
     update() {
-        this.background.tilePositionY -= 0.5;
+        // this.background.tilePositionY -= 0.5;
     }
 }

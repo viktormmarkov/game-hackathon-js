@@ -22,12 +22,16 @@ export class GameSceneBase extends Phaser.Scene {
         .setOffset(0, 0);
       this.player.setDepth(config.playerDepth);
       this.player.body.immovable = true;
-      this.player.health = 1000;
+      this.player.health = 100;
+      this.player.maxHealth = 100;
       this.player.damage = 10;
       this.player.direction = {x:0, y:0};
     }
       
     create() {
+        this.lifeBar = this.add.graphics(0, 0).setDepth(2)
+        this.lifeBarBg = this.add.graphics(0, 0).setDepth(1);
+        this.fillRect(this.lifeBarBg, {x: 0, y: 0, height: 100, width: 240, percent: 1, color: 0xd8c880, borderColor:0xffffff});
         this.worldLayer.setCollisionByProperty({ collides: true });
 
         this.scene.setVisible(true);
@@ -177,6 +181,7 @@ export class GameSceneBase extends Phaser.Scene {
       this.player.setDepth(config.playerDepth);
       this.player.body.immovable = true;
       this.player.health = 100;
+      this.player.maxHealth = 100;
       this.player.damage = 20;
       this.player.range = 20;
       this.player.direction = {x:0, y:0};
@@ -197,7 +202,21 @@ export class GameSceneBase extends Phaser.Scene {
           phitzone.destroy();
           enemy.health -= player.damage;
       });
-  }
+    }
+
+    fillRect(graphics, {x,y,percent,height, width, color, borderColor}) {
+      if (graphics) {
+        graphics.clear();
+        graphics.fillStyle(color, 1);
+        graphics.fillRect(
+          x,y,
+          percent * width,
+          height
+        );
+        graphics.lineStyle(2, borderColor);
+        graphics.strokeRect(x,y, width, height);
+      }
+    }
     
 
     updatePlayer() {
@@ -293,8 +312,22 @@ export class GameSceneBase extends Phaser.Scene {
         this.triggerFightAnimation = false;
     }
 
+    updateLifebar() {
+      const percent = this.player.health / this.player.maxHealth;
+      this.fillRect(this.lifeBar, {
+        x: 100,
+        y: 40,
+        percent,
+        width: 100,
+        height: 15,
+        color: 0xe66a28,
+        borderColor: 0xffffff
+      })
+    }
+
     update() {
         this.updatePlayer();
+        this.updateLifebar();
     }
 
     resetMovementButtons() {
