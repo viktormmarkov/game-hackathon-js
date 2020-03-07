@@ -14,8 +14,9 @@ export const config = {
     default: "arcade",
     arcade: {
       gravity: { y: 0 } // Top down game, so no gravity
-    }
+    },
   },
+  pixelArt: true,
   playerSpeed: 175,
   enemySpeed: 90,
   playerDepth: 9,

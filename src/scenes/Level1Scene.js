@@ -26,16 +26,14 @@ export class Level1Scene extends GameSceneBase {
             y: 1216
         };
         this.delta = {
-            x: 10,
-            y: 10
+            x: 60,
+            y: 60
         }
         this.enemies = [];
         this.enemiesGroup = this.physics.add.group();
-        this.physics.add.collider(this.enemiesGroup, this.player, () => {
-            // this.enemy.disableBody(true, false);
-            console.log('aaa')
-        });
+        this.physics.add.collider(this.enemiesGroup, this.player);
         this.physics.add.collider(this.enemiesGroup, this.enemiesGroup);
+        this.physics.add.collider(this.enemiesGroup, this.worldLayer);
         this.createEnemies();
     }
 
@@ -44,7 +42,9 @@ export class Level1Scene extends GameSceneBase {
             const enemy = this.physics.add
                 .sprite(enemyXY[i].x, enemyXY[i].y, "atlas", sprite)
                 .setSize(30, 40)
+                .setOffset(0, 24)
                 .setDepth(config.playerDepth);
+            enemy.body.immovable = true;
             this.enemiesGroup.add(enemy);
             this.enemies.push(enemy);
         }
@@ -57,7 +57,7 @@ export class Level1Scene extends GameSceneBase {
     followPlayer(enemy) {
         const speed = config.enemySpeed;
 
-        // enemy.body.setVelocity(0);
+        enemy.body.setVelocity(0);
 
         if (this.player.x >= enemy.x) {
             enemy.body.setVelocityX(speed);
@@ -68,20 +68,39 @@ export class Level1Scene extends GameSceneBase {
         // Vertical movement
         if (this.player.y >= enemy.y) {
             enemy.body.setVelocityY(speed);
-
         } else {
             enemy.body.setVelocityY(-speed);
         }
-      
+        const deltaX = Math.abs(this.player.x - enemy.x);
+        const deltaY = Math.abs(this.player.y - enemy.y);
+        if (deltaX >= deltaY) {
+            if (this.player.x >= enemy.x) {
+                enemy.anims.play("misa-right-walk", true);
+            } else if (this.player.x < enemy.x){
+                enemy.anims.play("misa-left-walk", true);
+            } else {
+                enemy.anims.stop();
+            }
+        } else {
+            if (this.player.y >= enemy.y) {
+                enemy.anims.play("misa-front-walk", true);
+            } else if (this.player.y < enemy.y){
+                enemy.anims.play("misa-back-walk", true);
+            } else {
+                enemy.anims.stop();
+            }
+        }
         // Normalize and scale the velocity so that player can't move faster along a diagonal
         enemy.body.velocity.normalize().scale(speed);
     }
 
     update() {
         for (let i in this.enemies) {
-            if ( this.playerEnemyDelta(this.enemies[i])) {
+            if ( this.playerEnemyDelta(this.enemies[i]) ) {
                 this.followPlayer(this.enemies[i]);
-            }   
+            } else {
+                this.enemies[i].anims.stop();
+            }
         }
         
         super.update();
