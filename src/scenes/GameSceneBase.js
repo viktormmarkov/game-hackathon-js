@@ -22,6 +22,20 @@ export class GameSceneBase extends Phaser.Scene {
     create() {      
         this.worldLayer.setCollisionByProperty({ collides: true });
       
+    create() {
+        const map = this.make.tilemap({ key: "map" });
+      
+        // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
+        // Phaser's cache (i.e. the name you used in preload)
+        const tileset = map.addTilesetImage("tileset", "tiles");
+      
+        // Parameters: layer name (or index) from Tiled, tileset, x, y
+        const belowLayer = map.createStaticLayer("bellow", tileset, 0, 0);
+        const worldLayer = map.createStaticLayer("world", tileset, 0, 0);
+        const aboveLayer = map.createStaticLayer("above", tileset, 0, 0);
+      
+        worldLayer.setCollisionByProperty({ collides: true });
+      
         // By default, everything gets depth sorted on the screen in the order we created things. Here, we
         // want the "Above Player" layer to sit on top of the player, so we explicitly give it a depth.
         // Higher depths will sit on top of lower depth objects.
