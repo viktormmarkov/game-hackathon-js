@@ -12,6 +12,7 @@ import charlocal_fight_up from '../assets/images/Character_SlashUpRight-Sheet.pn
 import charlocal_fight_left from '../assets/images/Character_SlashUpLeft-Sheet.png';
 import charlocal_fight_right from '../assets/images/Character_SlashDownRight-Sheet.png';
 import kyci from '../assets/images/kyci.png';
+import penka from '../assets/images/penka.png';
 import slap from '../assets/audio/slap2.wav';
 import grunt from '../assets/audio/grunt.wav';
 
@@ -36,6 +37,7 @@ export class TitleScene extends Phaser.Scene {
         this.load.image("tiles", tilesetlocal);
         this.load.tilemapTiledJSON("map", maplocal);
         this.load.image('kyciAvatar', kyci);
+        this.load.image('penkaAvatar', penka);
         this.load.audio('slap', slap);
         this.load.audio('grunt', grunt);
         // An atlas is a way to pack multiple images together into one texture. I'm using it to load all
