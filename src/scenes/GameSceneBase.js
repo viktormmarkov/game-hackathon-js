@@ -18,7 +18,7 @@ export class GameSceneBase extends Phaser.Scene {
       const spawnPoint = this.map.findObject("Objects", obj => obj.name === "Spawn Point");
       // a bit of whitespace, so I'm using setSize & setOffset to control the size of the player's body.
       this.player = this.physics.add
-        .sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front")
+        .sprite(spawnPoint.x, spawnPoint.y, "sprCharDown", "kyciDown")
         .setSize(30, 40)
         .setOffset(0, 24);
       this.player.setDepth(config.playerDepth);
@@ -77,6 +77,32 @@ export class GameSceneBase extends Phaser.Scene {
           frameRate: 10,
           repeat: -1
         });
+
+        // Kyci animations
+        this.anims.create({
+          key: 'kyciDown',
+          frames: this.anims.generateFrameNumbers('sprCharDown', { start: 0, end: 3 }),
+          frameRate: 10,
+          repeat: -1
+        });
+        this.anims.create({
+          key: 'kyciUp',
+          frames: this.anims.generateFrameNumbers('sprCharUp', { start: 0, end: 3 }),
+          frameRate: 10,
+          repeat: -1
+        });
+        this.anims.create({
+          key: 'kyciLeft',
+          frames: this.anims.generateFrameNumbers('sprCharLeft', { start: 0, end: 3 }),
+          frameRate: 10,
+          repeat: -1
+        });
+        this.anims.create({
+          key: 'kyciRight',
+          frames: this.anims.generateFrameNumbers('sprCharRight', { start: 0, end: 3 }),
+          frameRate: 10,
+          repeat: -1
+        });
       
         const camera = this.cameras.main;
         camera.startFollow(this.player);
@@ -116,20 +142,20 @@ export class GameSceneBase extends Phaser.Scene {
       
         // Update the animation last and give left/right animations precedence over up/down animations
         if (this.cursors.left.isDown) {
-          this.player.anims.play("misa-left-walk", true);
+          this.player.anims.play("kyciLeft", true);
         } else if (this.cursors.right.isDown) {
-          this.player.anims.play("misa-right-walk", true);
+          this.player.anims.play("kyciRight", true);
         } else if (this.cursors.up.isDown) {
-          this.player.anims.play("misa-back-walk", true);
+          this.player.anims.play("kyciUp", true);
         } else if (this.cursors.down.isDown) {
-          this.player.anims.play("misa-front-walk", true);
+          this.player.anims.play("kyciDown", true);
         } else {
           this.player.anims.stop();
           // If we were moving, pick and idle frame to use
-        if (prevVelocity.x < 0) this.player.setTexture("atlas", "misa-left");
-        else if (prevVelocity.x > 0) this.player.setTexture("atlas", "misa-right");
-        else if (prevVelocity.y < 0) this.player.setTexture("atlas", "misa-back");
-        else if (prevVelocity.y > 0) this.player.setTexture("atlas", "misa-front");
+        if (prevVelocity.x < 0) this.player.setTexture("sprCharLeft", "kyciLeft");
+        else if (prevVelocity.x > 0) this.player.setTexture("sprCharRight", "kyciRight");
+        else if (prevVelocity.y < 0) this.player.setTexture("sprCharUp", "kyciUp");
+        else if (prevVelocity.y > 0) this.player.setTexture("sprCharDown", "kyciDown");
         }
     }
 

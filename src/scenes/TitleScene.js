@@ -3,6 +3,10 @@ import _ from 'lodash';
 import { config } from '../index';
 import background from '../assets/images/logo.png';
 import tilesetlocal from '../assets/images/tileset.png';
+import charlocal_down from '../assets/images/Character_Down-Sheet.png';
+import charlocal_up from '../assets/images/Character_Up-Sheet.png';
+import charlocal_left from '../assets/images/Character_Left-Sheet.png';
+import charlocal_right from '../assets/images/Character_Right-Sheet.png';
 import maplocal from '../assets/map.json';
 
 const fontSize = 25;
@@ -30,6 +34,10 @@ export class TitleScene extends Phaser.Scene {
         // If you don't use an atlas, you can do the same thing with a spritesheet, see:
         //  https://labs.phaser.io/view.html?src=src/animation/single%20sprite%20sheet.js
         this.load.atlas("atlas", "https://www.mikewesthad.com/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.png", "https://www.mikewesthad.com/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.json");
+        this.load.spritesheet("sprCharDown", charlocal_down, {frameWidth: 32, frameHeight: 42})
+        this.load.spritesheet("sprCharUp", charlocal_up, {frameWidth: 32, frameHeight: 42})
+        this.load.spritesheet("sprCharLeft", charlocal_left, {frameWidth: 32, frameHeight: 42})
+        this.load.spritesheet("sprCharRight", charlocal_right, {frameWidth: 32, frameHeight: 42})
         this.load.image('background', background);
     }
     create() {
