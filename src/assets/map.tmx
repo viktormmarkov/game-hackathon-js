@@ -1219,6 +1219,7 @@
   </tile>
   <tile id="443">
    <properties>
+    <property name="action" value="door1"/>
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
@@ -1244,6 +1245,7 @@
   </tile>
   <tile id="448">
    <properties>
+    <property name="action" value="door2"/>
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
@@ -1269,6 +1271,7 @@
   </tile>
   <tile id="453">
    <properties>
+    <property name="action" value="door3"/>
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
@@ -1500,6 +1503,16 @@
   <tile id="538">
    <properties>
     <property name="collides" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="540">
+   <properties>
+    <property name="action" value="door4"/>
+   </properties>
+  </tile>
+  <tile id="550">
+   <properties>
+    <property name="action" value="door5"/>
    </properties>
   </tile>
   <tile id="552">
@@ -1834,6 +1847,7 @@
   </tile>
   <tile id="650">
    <properties>
+    <property name="action" value="door8"/>
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
@@ -1869,6 +1883,7 @@
   </tile>
   <tile id="657">
    <properties>
+    <property name="action" value="door7"/>
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
@@ -1894,6 +1909,7 @@
   </tile>
   <tile id="662">
    <properties>
+    <property name="action" value="door6"/>
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
@@ -1914,6 +1930,7 @@
   </tile>
   <tile id="666">
    <properties>
+    <property name="action" value="barber"/>
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
