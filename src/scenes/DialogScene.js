@@ -14,8 +14,9 @@ export class DialogScene extends Phaser.Scene {
     }
 
     create(opts) {
+        this.scene.setVisible(false);
+
         //get image by key
-        console.log(opts.action);
         this.add.image(0, 0, opts.action).setOrigin(0, 0);
 
         this.dialog = Dialogs[opts.action];
@@ -29,5 +30,8 @@ export class DialogScene extends Phaser.Scene {
             this.DialogModalPlugin.showNextText();
            }
         });
+
+        this.scene.setVisible(true);
+        this.cameras.main.fadeIn(1000);
     }
 }

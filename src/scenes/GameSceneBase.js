@@ -28,13 +28,16 @@ export class GameSceneBase extends Phaser.Scene {
     create() {
       
         this.worldLayer.setCollisionByProperty({ collides: true });
-      
-        // By default, everything gets depth sorted on the screen in the order we created things. Here, we
-        // want the "Above Player" layer to sit on top of the player, so we explicitly give it a depth.
-        // Higher depths will sit on top of lower depth objects.
-        this.aboveLayer.setDepth(10);
 
-    
+        this.scene.setVisible(true);
+        this.cameras.main.fadeIn(1000);
+        setTimeout(() => {
+          // By default, everything gets depth sorted on the screen in the order we created things. Here, we
+          // want the "Above Player" layer to sit on top of the player, so we explicitly give it a depth.
+          // Higher depths will sit on top of lower depth objects.
+          this.aboveLayer.setDepth(10);
+        }, 1000);
+
         // Watch the player and worldLayer for collisions, for the duration of the scene:
         this.physics.add.collider(this.player, this.worldLayer);
       
@@ -116,6 +119,15 @@ export class GameSceneBase extends Phaser.Scene {
 
         
         this.events.once('wake', () => {
+          this.aboveLayer.setDepth(0);
+          this.cameras.main.fadeIn(1000);
+
+          setTimeout(() => {
+            // By default, everything gets depth sorted on the screen in the order we created things. Here, we
+            // want the "Above Player" layer to sit on top of the player, so we explicitly give it a depth.
+            // Higher depths will sit on top of lower depth objects.
+            this.aboveLayer.setDepth(10);
+          }, 1000);
           this.input.keyboard.removeKey('keyup_SPACE')
         });
     }
@@ -162,6 +174,7 @@ export class GameSceneBase extends Phaser.Scene {
         else if (prevVelocity.y < 0) this.player.setTexture("sprCharUp", "kyciUp");
         else if (prevVelocity.y > 0) this.player.setTexture("sprCharDown", "kyciDown");
         }
+        
     }
 
     update() {
