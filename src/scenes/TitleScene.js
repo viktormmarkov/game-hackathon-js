@@ -7,6 +7,12 @@ import charlocal_down from '../assets/images/Character_Down-Sheet.png';
 import charlocal_up from '../assets/images/Character_Up-Sheet.png';
 import charlocal_left from '../assets/images/Character_Left-Sheet.png';
 import charlocal_right from '../assets/images/Character_Right-Sheet.png';
+
+import charlocal_fight_down from '../assets/images/Character_SlashDownLeft-Sheet.png';
+import charlocal_fight_up from '../assets/images/Character_SlashUpRight-Sheet.png';
+import charlocal_fight_left from '../assets/images/Character_SlashUpLeft-Sheet.png';
+import charlocal_fight_right from '../assets/images/Character_SlashDownRight-Sheet.png';
+
 import maplocal from '../assets/map.json';
 
 const fontSize = 25;
@@ -38,6 +44,11 @@ export class TitleScene extends Phaser.Scene {
         this.load.spritesheet("sprCharUp", charlocal_up, {frameWidth: 32, frameHeight: 42})
         this.load.spritesheet("sprCharLeft", charlocal_left, {frameWidth: 32, frameHeight: 42})
         this.load.spritesheet("sprCharRight", charlocal_right, {frameWidth: 32, frameHeight: 42})
+
+        this.load.spritesheet("sprCharFightDown", charlocal_fight_down, {frameWidth: 32, frameHeight: 44})
+        this.load.spritesheet("sprCharFightUp", charlocal_fight_up, {frameWidth: 34, frameHeight: 44})
+        this.load.spritesheet("sprCharFightLeft", charlocal_fight_left, {frameWidth: 34, frameHeight: 40})
+        this.load.spritesheet("sprCharFightRight", charlocal_fight_right, {frameWidth: 34, frameHeight: 40})
         this.load.image('background', background);
     }
     create() {
