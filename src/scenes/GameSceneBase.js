@@ -13,10 +13,11 @@ export class GameSceneBase extends Phaser.Scene {
       const spawnPoint = this.map.findObject("Objects", obj => obj.name === "Spawn Point");
       // a bit of whitespace, so I'm using setSize & setOffset to control the size of the player's body.
       this.player = this.physics.add
-      .sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front")
-      .setSize(30, 40)
-      .setOffset(0, 24);
+        .sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front")
+        .setSize(30, 40)
+        .setOffset(0, 24);
       this.player.setDepth(config.playerDepth);
+      this.player.body.immovable = true;
     }
       
     create() {

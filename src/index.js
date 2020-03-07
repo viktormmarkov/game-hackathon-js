@@ -17,7 +17,7 @@ export const config = {
     }
   },
   playerSpeed: 175,
-  enemySpeed: 30,
+  enemySpeed: 90,
   playerDepth: 9,
 };
 
