@@ -41,7 +41,7 @@ export class GameSceneBase extends Phaser.Scene {
 
         const indexes = this.worldLayer.getTilesWithin().filter(tile => tile.properties.collides).map(tile => tile.index);
         this.worldLayer.setTileIndexCallback(indexes, (player, tile) => {
-            if (tile.properties.action) {
+            if (tile.properties.action && tile.properties.action.indexOf('scene') > -1) {
                 const currentKey = this.scene.key;
                 this.scene.sleep(currentKey);
                 this.resetMovementButtons();
