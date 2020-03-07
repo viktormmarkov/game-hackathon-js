@@ -191,6 +191,8 @@ export class GameSceneBase extends Phaser.Scene {
       const y = initialy ? initialy + range * direction.y : initialy;
       this.hitzone && this.hitzone.destroy();
       this.hitzone = this.physics.add.sprite(x, y, 'hitzone');
+      this.hitzone.setVisible(false);
+      this.hitzone.duration = 5;
       this.physics.add.collider(this.hitzone, this.enemiesGroup, (phitzone, enemy) => {
           phitzone.destroy();
           enemy.health -= player.damage;
@@ -281,7 +283,13 @@ export class GameSceneBase extends Phaser.Scene {
               else if (this.player.direction.y > 0) this.player.setTexture("sprCharDown", 0);
             }
           }
-        
+        if (this.hitzone) {
+          this.hitzone.duration--;
+          if (this.hitzone.duration == 0) {
+            this.hitzone.destroy();
+          }
+        }
+
         this.triggerFightAnimation = false;
     }
 

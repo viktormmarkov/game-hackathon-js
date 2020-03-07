@@ -69,7 +69,9 @@ export class Level1Scene extends GameSceneBase {
             enemy.damage = 2.5;
             enemy.health = 40;
             enemy.on('destroy', () => {
-                this.powerup = this.physics.add.sprite(enemy.x, enemy.y, 'hitzone');
+                const sumX = this.player.x > enemy.x ? -20 : 20;
+                const sumY = this.player.y > enemy.y ? -20 : 20;
+                this.powerup = this.physics.add.sprite(enemy.x + sumX * (Math.random()), enemy.y + sumY * (Math.random()) , 'hitzone');
 
                 // const powerup = this.add.sprite(enemy.x, enemy.y, 'hitzone').setOrigin(0.5, 0.5);
                 console.log(this.player);
