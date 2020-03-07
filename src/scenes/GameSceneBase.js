@@ -120,4 +120,12 @@ export class GameSceneBase extends Phaser.Scene {
     update() {
         this.updatePlayer();
     }
+
+    resetMovementButtons() {
+      debugger;
+      this.cursors.up.reset();
+      this.cursors.down.reset();
+      this.cursors.left.reset();
+      this.cursors.right.reset();
+  }
 }
