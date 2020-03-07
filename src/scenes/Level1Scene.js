@@ -38,20 +38,17 @@ export class Level1Scene extends GameSceneBase {
               
         this.input.keyboard.on('keydown_SPACE', event => {
             const player = this.player;
-            const range = 20;
-            const radius = 30;
+            const range = player.range;
             const direction = player.direction || {x: 0, y:0};
             const initialy = player.y // uglyhack;
             const x = direction.x ? player.x + range * direction.x : player.x;
             const y = initialy ? initialy + range * direction.y : initialy;
-            const polygonPoints = [x,y, x + radius,y, x + radius,y + radius, x, y + radius];
-            // const polygon = this.add.polygon(0, 100, polygonPoints, 0xff0000, 0.3).setDepth(config.playerDepth);
+            this.hitzone && this.hitzone.destroy();
             this.hitzone = this.physics.add.sprite(x, y, 'hitzone');
             this.physics.add.collider(this.hitzone, this.enemiesGroup, (phitzone, enemy) => {
                 phitzone.destroy();
                 enemy.health -= player.damage;
-                // console.log('aaa');
-            }, null, this);
+            });
               
           });
   
@@ -86,6 +83,16 @@ export class Level1Scene extends GameSceneBase {
             enemy.lastHit = 0;
             enemy.damage = 2.5;
             enemy.health = 40;
+            enemy.on('destroy', () => {
+                this.powerup = this.physics.add.sprite(enemy.x, enemy.y, 'hitzone');
+
+                // const powerup = this.add.sprite(enemy.x, enemy.y, 'hitzone').setOrigin(0.5, 0.5);
+                console.log(this.player);
+                this.physics.add.collider(this.powerup, this.player, () => {
+                    console.log('overlaaap');
+                    this.player.health = 0;
+                });
+            })
             this.enemiesGroup.add(enemy);
             this.enemies.push(enemy);
         }
@@ -110,7 +117,6 @@ export class Level1Scene extends GameSceneBase {
             enemy.body.setVelocityX(-speed);
         }
       
-        // Vertical movement
         if (this.player.y >= enemy.y) {
             enemy.body.setVelocityY(speed);
         } else {
@@ -140,15 +146,11 @@ export class Level1Scene extends GameSceneBase {
     }
 
     hitPlayer(enemy, player, time) {
-        if (enemy.active === false)
-        {
+        if (enemy.active === false) {
             return;
         }
-    
-        if ((time - enemy.lastHit) > 1000)
-        {
+        if ((time - enemy.lastHit) > 1000) {
             enemy.lastHit = time;
-    
             // Get bullet from bullets group
             player.health -= enemy.damage;
         }
@@ -165,7 +167,6 @@ export class Level1Scene extends GameSceneBase {
                 if ( this.playerEnemyDelta(enemy) ) {
                     this.followPlayer(enemy);
                 } else {
-                    enemy.anims.stop();
                     this.hitPlayer(enemy, this.player, time);
                 }
             }
@@ -175,9 +176,9 @@ export class Level1Scene extends GameSceneBase {
         // if (this.hitzone) {
         //     this.hitzone.destroy();
         // }
-        if (this.enemies.length === 0) {
-            this.scene.start('EndGame');
-        }
+        // if (this.enemies.length === 0) {
+        //     this.scene.start('EndGame');
+        // }
         super.update();
     }
 }

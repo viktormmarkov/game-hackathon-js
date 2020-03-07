@@ -24,6 +24,7 @@ export class GameSceneBase extends Phaser.Scene {
       this.player.body.immovable = true;
       this.player.health = 100;
       this.player.damage = 20;
+      this.player.range = 20;
       this.player.direction = {x:0, y:0};
     }
       
