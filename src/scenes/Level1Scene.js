@@ -4,7 +4,12 @@ import hitzone from '../assets/images/hitzone.png';
 import tombstone from '../assets/images/tombstone.png';
 
 import {config} from '../index';
-const enemyXY = [{x: 50, y: 50}, {x: 100, y:100}, {x: 200, y:100}]
+const enemyXY = [{x: 50, y: 50}, {x: 100, y:100}, {x: 200, y:100}];
+const fontStyle = {
+    fontSize: '25px',
+    // color: "#ff0000"
+}
+
 export class Level1Scene extends GameSceneBase {
     constructor() {
         super('Level1Scene');
@@ -59,6 +64,28 @@ export class Level1Scene extends GameSceneBase {
 
     }
 
+    dropPowerups(enemy) {
+        const sumX = this.player.x > enemy.x ? -20 : 20;
+        const sumY = this.player.y > enemy.y ? -20 : 20;
+        this.physics.add.sprite(enemy.x + sumX * (Math.random()), enemy.y + sumY * (Math.random()) , 'tombstone');
+        this.powerup = this.physics.add.sprite(enemy.x + sumX * (Math.random()), enemy.y + sumY * (Math.random()) , 'hitzone');
+
+        // const powerup = this.add.sprite(enemy.x, enemy.y, 'powerup').setOrigin(0.5, 0.5);
+        this.physics.add.overlap(this.powerup, this.player, () => {
+            this.powerup.destroy();
+            const text = this.add.text(this.powerup.x, this.powerup.y, '+10dmg', fontStyle).setOrigin(0,0)
+            this.tweens.add({
+                targets: text,
+                scale: { from: 1, to: 0},
+                y: { from: text.y, to: text.y - 50},
+                ease: 'Linear',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
+                duration: 400,
+                repeat: 0,            // -1: infinity
+                yoyo: false
+            });
+        });
+    }
+
     createEnemies(sprite = 'misa-front') {
         for (let i = 0; i < this.enemiesCount; i ++) {
             const enemy = this.physics.add
@@ -71,16 +98,7 @@ export class Level1Scene extends GameSceneBase {
             enemy.damage = 2.5;
             enemy.health = 40;
             enemy.on('destroy', () => {
-                const sumX = this.player.x > enemy.x ? -20 : 20;
-                const sumY = this.player.y > enemy.y ? -20 : 20;
-                this.physics.add.sprite(enemy.x + sumX * (Math.random()), enemy.y + sumY * (Math.random()) , 'tombstone');
-                this.hitzone = this.physics.add.sprite(enemy.x + sumX * (Math.random()), enemy.y + sumY * (Math.random()) , 'hitzone');
-
-                // const powerup = this.add.sprite(enemy.x, enemy.y, 'hitzone').setOrigin(0.5, 0.5);
-                console.log(this.player);
-                this.physics.add.overlap(this.hitzone, this.player, () => {
-                    this.hitzone.destroy();
-                });
+                this.dropPowerups(enemy);
             })
             this.enemiesGroup.add(enemy);
             this.enemies.push(enemy);
