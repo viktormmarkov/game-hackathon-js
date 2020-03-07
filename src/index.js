@@ -9,7 +9,7 @@ export const config = {
   parent: "phaser-example",
   width: 800,
   height: 600,
-  scene: [MainScene, OptionsScene],
+  scene: [TitleScene, MainScene, OptionsScene],
   physics: {
     default: "arcade",
     arcade: {
