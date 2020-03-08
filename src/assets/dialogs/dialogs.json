@@ -1,27 +1,46 @@
 {
     "pre_scene1": [
         {
-            "text": "hi",
+            "text": "Здравей Пенке, как си днес :) :)",
             "character": "kyci"
 
         },
         {
-            "text": "здрав",
+            "text": "Abe ti koi be6e?",
             "character": "penka"
         },
         {
-            "text": "hi",
+            "text": "Къци, живея в твоя блок.",
             "character": "kyci"
 
         },
         {
-            "text": "Bring me my bag NOW!!!!!!!!",
+            "text": "Aaa da...",
             "character": "penka"
         },
 
         {
             "character": "kyci",
-            "text": "Fuck you fucking bitch"
+            "text": "Всъщност чудих се дали искаш да..."
+        },
+
+        {
+            "text": "Znai6 kvo, maj si zabravih 4antata :(",
+            "character": "penka"
+        },
+        {
+            "text": "Къде?! Мога да отида да я взема за теб :)",
+            "character": "kyci"
+
+        },
+        {
+            "text": "V friziorskiq salon. I po byrzo.",
+            "character": "penka"
+        },
+        {
+            "text": "Тръгвам веднага!!!",
+            "character": "kyci"
+
         }
     ],
     "scene1": [
