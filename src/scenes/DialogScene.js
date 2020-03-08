@@ -4,7 +4,7 @@ import Dialogs from '../assets/dialogs/dialogs.json'
 import kyci from '../assets/images/Kyci.png';
 import penka from '../assets/images/Penka.png';
 import penka2 from '../assets/images/Penka2.png';
-import bratuto from '../assets/images/BratutoBig.png';
+import bratuto from '../assets/images/Bratuto.png';
 import scene1 from '../assets/images/dialog_scene_1.png';
 
 export class DialogScene extends Phaser.Scene {
@@ -41,7 +41,7 @@ export class DialogScene extends Phaser.Scene {
                 this.characters[element.character] = this.add.sprite(1000 * Object.keys(this.characters).length, 0, element.character + 'Avatar1')
                                                                 .setScale(4, 4)
                                                                 .setOrigin(0, 0)
-                                                                .setAlpha(alpha);
+                                                                .setAlpha(alpha);   
             }
         });
         // this.characters['kyci'] = this.add.sprite(0, 0, 'kyciAvatar1').setScale(4, 4).setOrigin(0, 0).setAlpha(0.6);
