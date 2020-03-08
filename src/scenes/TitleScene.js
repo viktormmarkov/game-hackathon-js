@@ -37,8 +37,8 @@ const MENU_ITEMS = [{
     text: 'Start Game',
     scene: 'Level1Scene'
 }, {
-    text: 'Options',
-    scene: 'OptionsScene'
+    text: 'Credits',
+    scene: 'CreditsScene'
 }];
 
 export class TitleScene extends Phaser.Scene {
