@@ -1,17 +1,22 @@
 {
     "scene1": [
         {
-            "text": "hi"
+            "text": "hi",
+            "character": "penka"
         },
         {
-            "text": "hi"
+            "text": "hi",
+            "character": "kyci"
+
         },
 
         {
-            "text": "Bring me my bag NOW!!!!!!!!"
+            "text": "Bring me my bag NOW!!!!!!!!",
+            "character": "penka"
         },
 
         {
+            "character": "kyci",
             "text": "Fuck you fucking bitch"
         }
     ]

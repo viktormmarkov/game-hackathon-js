@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 import _ from 'lodash';
 import { config } from '../index';
-import background from '../assets/images/logo.png';
 import tilesetlocal from '../assets/images/tileset.png';
 import charlocal_down from '../assets/images/Character_Down-Sheet.png';
 import charlocal_up from '../assets/images/Character_Up-Sheet.png';
@@ -12,6 +11,10 @@ import charlocal_fight_down from '../assets/images/Character_SlashDownLeft-Sheet
 import charlocal_fight_up from '../assets/images/Character_SlashUpRight-Sheet.png';
 import charlocal_fight_left from '../assets/images/Character_SlashUpLeft-Sheet.png';
 import charlocal_fight_right from '../assets/images/Character_SlashDownRight-Sheet.png';
+import kyci from '../assets/images/kyci.png';
+import penka from '../assets/images/penka.png';
+import slap from '../assets/audio/slap2.wav';
+import grunt from '../assets/audio/grunt.wav';
 
 import penkaDown from '../assets/images/Penka_Down-Sheet.png';
 import penkaUp from '../assets/images/Penka_Up-Sheet.png';
@@ -43,7 +46,10 @@ export class TitleScene extends Phaser.Scene {
     preload() {
         this.load.image("tiles", tilesetlocal);
         this.load.tilemapTiledJSON("map", maplocal);
-        
+        this.load.image('kyciAvatar', kyci);
+        this.load.image('penkaAvatar', penka);
+        this.load.audio('slap', slap);
+        this.load.audio('grunt', grunt);
         // An atlas is a way to pack multiple images together into one texture. I'm using it to load all
         // the player animations (walking left, walking right, etc.) in one image. For more info see:
         //  https://labs.phaser.io/view.html?src=src/animation/texture%20atlas%20animation.js
@@ -70,11 +76,12 @@ export class TitleScene extends Phaser.Scene {
         this.load.spritesheet("penkaFightLeft", penkaFightLeft, {frameWidth: 34, frameHeight: 40})
         this.load.spritesheet("penkaFightRight", penkaFightRight, {frameWidth: 34, frameHeight: 40})
 
-        this.load.image('background', background);
+        // this.load.image('background', background);
     }
     create() {
-        this.background = this.add.tileSprite(0, 0, config.width, config.height, 'background');
-        this.background.setOrigin(0, 0);
+
+        // this.background = this.add.tileSprite(0, 0, config.width, config.height, 'background');
+        // this.background.setOrigin(0, 0);
         this.createMenu();
     }
 
@@ -99,6 +106,6 @@ export class TitleScene extends Phaser.Scene {
        
     }
     update() {
-        this.background.tilePositionY -= 0.5;
+        // this.background.tilePositionY -= 0.5;
     }
 }

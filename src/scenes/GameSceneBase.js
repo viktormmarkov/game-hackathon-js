@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { config } from '../index';
+import { config } from '../index'
 
 export class GameSceneBase extends Phaser.Scene {
     constructor(key) {
@@ -22,12 +22,17 @@ export class GameSceneBase extends Phaser.Scene {
         .setOffset(0, 0);
       this.player.setDepth(config.playerDepth);
       this.player.body.immovable = true;
-      this.player.health = 1000;
+      this.player.health = 100;
+      this.player.maxHealth = 10000;
       this.player.damage = 10;
       this.player.direction = {x:0, y:0};
     }
       
     create() {
+        this.lifeBar = this.add.graphics(0, 0).setDepth(11)
+        this.lifeBarBg = this.add.graphics(0, 0).setDepth(10);
+        this.avatar = this.add.image(50, 50, 'kyciAvatar').setScale(0.3, 0.3).setOrigin(0.5, 0.5).setDepth(12);
+
         this.worldLayer.setCollisionByProperty({ collides: true });
 
         this.scene.setVisible(true);
@@ -161,6 +166,8 @@ export class GameSceneBase extends Phaser.Scene {
           this.isInFightAnimation = true;
           this.fightAlarm = 10;
         });
+
+        this.text = this.add.text(220, 240).setScrollFactor(0).setFontSize(16).setColor('#ffffff');;
     }
 
     createPlayer() {   
@@ -176,7 +183,8 @@ export class GameSceneBase extends Phaser.Scene {
         .setOffset(0, 0);
       this.player.setDepth(config.playerDepth);
       this.player.body.immovable = true;
-      this.player.health = 100;
+      this.player.health = 1000;
+      this.player.maxHealth = 1000;
       this.player.damage = 20;
       this.player.range = 20;
       this.player.direction = {x:0, y:0};
@@ -197,7 +205,22 @@ export class GameSceneBase extends Phaser.Scene {
           phitzone.destroy();
           enemy.health -= player.damage;
       });
-  }
+      this.sound.play('slap');
+    }
+
+    fillRect(graphics, {x,y,percent,height, width, color, borderColor}) {
+      if (graphics) {
+        graphics.clear();
+        graphics.fillStyle(color, 1);
+        graphics.fillRect(
+          x,y,
+          percent * width,
+          height
+        );
+        graphics.lineStyle(2, borderColor);
+        graphics.strokeRect(x,y, width, height);
+      }
+    }
     
 
     updatePlayer() {
@@ -293,8 +316,27 @@ export class GameSceneBase extends Phaser.Scene {
         this.triggerFightAnimation = false;
     }
 
+    updateLifebar() {
+      var cam = this.cameras.main;
+      const offsetX = cam._scrollX;
+      const offsetY = cam._scrollY;
+      const percent = this.player.health / this.player.maxHealth;
+      this.fillRect(this.lifeBar, {
+        x: offsetX + 100,
+        y: offsetY + 40,
+        percent,
+        width: 100,
+        height: 15,
+        color: 0xe66a28,
+        borderColor: 0xffffff
+      });
+      this.fillRect(this.lifeBarBg, {x: offsetX, y: offsetY, height: 100, width: 240, percent: 1, color: 0xd8c880, borderColor:0xffffff});
+
+    }
+
     update() {
         this.updatePlayer();
+        this.updateLifebar();
     }
 
     resetMovementButtons() {
