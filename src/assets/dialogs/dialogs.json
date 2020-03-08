@@ -106,5 +106,25 @@
             "text": "`Chezvai mursho",
             "character": "bratuto"
         }
+    ],
+    "endgame": [
+        {
+            "text": "Здрасти. нося ти....",
+            "character": "kyci"
+
+        },
+        {
+            "text": "Razkaraaai se, nabi vsichkite mi priqteli",
+            "character": "penka"
+        },
+        {
+            "text": "Пенке, много искам да си станем по-близки",
+            "character": "kyci"
+
+        },
+        {
+            "text": "Nasilnik......",
+            "character": "penka"
+        }
     ]
 }
