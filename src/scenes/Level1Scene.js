@@ -2,14 +2,27 @@ import Phaser from 'phaser';
 import {GameSceneBase} from './GameSceneBase';
 import hitzone from '../assets/images/hitzone.png';
 import tombstone from '../assets/images/tombstone.png';
+const POWERUP_TYPES = ['damage', 'speed', 'health'];
+const POWERUP_MODIFIERS = [5, 10, 20, 50, -5, -10, -20, -50];
+const POWERUP_MODIFIERS_COUNT = POWERUP_MODIFIERS.length;
+const POWERUPS_TYPES_COUNT = POWERUP_TYPES.length;
 
+function getPowerup () {
+    const powerupIndex = Math.floor(Math.random() *  POWERUPS_TYPES_COUNT);
+    const modifierIndex = Math.floor(Math.random() *  POWERUP_MODIFIERS_COUNT);
+    const type = POWERUP_TYPES[powerupIndex];
+    const modifier = POWERUP_MODIFIERS[modifierIndex];
+    const isPositive = modifier > 0;
+    return {
+        type,
+        modifier,
+        text: `${isPositive ? '+' : '-'}${Math.abs(modifier)}${type}`,
+        color: isPositive ? '#639d02' : '#9b1c31'
+    }
+}
 
 import {config} from '../index';
 const enemyXY = [{x: 50, y: 50}, {x: 100, y:100}, {x: 200, y:100}];
-const fontStyle = {
-    fontSize: '25px',
-    // color: "#ff0000"
-}
 
 export class Level1Scene extends GameSceneBase {
     constructor() {
@@ -24,7 +37,7 @@ export class Level1Scene extends GameSceneBase {
 
     create() {
         this.map = this.make.tilemap({ key: "map" });
-        this.enemiesCount = 3;
+        this.enemiesCount = 5;
         this.createPlayer();
       
         const tileset = this.map.addTilesetImage("tileset", "tiles");
@@ -51,10 +64,10 @@ export class Level1Scene extends GameSceneBase {
             .setAlpha(0.75)
             .setDepth(20);
         this.worldLayer.renderDebug(graphics, {
-            tileColor: null, // Color of non-colliding tiles
-            collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-            faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-        });
+                tileColor: null, // Color of non-colliding tiles
+                collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+                faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+            });
         });
   
         super.create();
@@ -111,32 +124,42 @@ export class Level1Scene extends GameSceneBase {
 
     }
 
+    powerupPlayer(powerup) {
+        this.player[powerup.type] += powerup.modifier;
+
+    }
+
     dropPowerups(enemy) {
         const sumX = this.player.x > enemy.x ? -20 : 20;
         const sumY = this.player.y > enemy.y ? -20 : 20;
-        this.physics.add.sprite(enemy.x, enemy.y, 'tombstone');
         const powerup = this.physics.add.sprite(enemy.x + sumX * (Math.random()), enemy.y + sumY * (Math.random()) , 'hitzone');
 
         // const powerup = this.add.sprite(enemy.x, enemy.y, 'powerup').setOrigin(0.5, 0.5);
         this.physics.add.overlap(powerup, this.player, (powerup) => {
             powerup.destroy();
-            const text = this.add.text(powerup.x, powerup.y, '+10dmg', fontStyle).setOrigin(0.5, 0.5)
+            const powerupModifier = getPowerup();
+            const fontStyle = {
+                fontSize: '40px',
+                color: powerupModifier.color
+            }
+            const text = this.add.text(powerup.x, powerup.y, powerupModifier.text, fontStyle).setOrigin(0.5, 0.5)
             this.tweens.add({
                 targets: text,  
                 scale: { from: 1, to: 0},
                 y: { from: text.y, to: text.y - 50},
                 ease: 'Linear',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
-                duration: 400,
+                duration: 800,
                 repeat: 0,            // -1: infinity
                 yoyo: false
             });
+            this.powerupPlayer(powerupModifier);
         });
     }
 
     createEnemies(sprite = 'misa-front') {
         for (let i = 0; i < this.enemiesCount; i ++) {
             const enemy = this.physics.add
-                .sprite(enemyXY[i].x, enemyXY[i].y, "penkaLeft", 0)
+                .sprite(Math.random() * 50, Math.random() * 150, "penkaLeft", 0)
                 .setSize(30, 40)
                 .setOffset(0, 0)
                 .setDepth(config.playerDepth);
