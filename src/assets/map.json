@@ -3573,7 +3573,7 @@
                         {
                          "name":"action",
                          "type":"string",
-                         "value":"barber"
+                         "value":"scene1"
                         }, 
                         {
                          "name":"collides",
