@@ -667,6 +667,7 @@ export class GameSceneBase extends Phaser.Scene {
                   enemy.isHitting = false;
                   enemy.anims.stop();
               }
+              
           }
       });
 

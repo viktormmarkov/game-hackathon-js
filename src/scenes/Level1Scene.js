@@ -17,7 +17,7 @@ export class Level1Scene extends GameSceneBase {
 
     create() {
         this.map = this.make.tilemap({ key: "map" });
-        this.enemiesCount = 1;
+        this.enemiesCount = 10;
         this.createPlayer();
       
         const tileset = this.map.addTilesetImage("tileset", "tiles");
