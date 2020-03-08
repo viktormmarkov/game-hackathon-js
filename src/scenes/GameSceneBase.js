@@ -33,6 +33,10 @@ export class GameSceneBase extends Phaser.Scene {
         this.lifeBarBg = this.add.graphics(0, 0).setDepth(10);
         this.avatar = this.add.image(50, 50, 'kyciAvatar').setScale(0.3, 0.3).setOrigin(0.5, 0.5).setDepth(12);
 
+        this.dmgText = this.add.text(250, 0, `DMG: ${this.player.damage}`).setDepth(8);
+        this.hpText = this.add.text(250, 25, `HP: ${this.player.health}`).setDepth(8);
+        this.speedText = this.add.text(250, 50, `SPEED: ${this.player.speed}`).setDepth(8);
+
         this.worldLayer.setCollisionByProperty({ collides: true });
 
         this.scene.setVisible(true);
@@ -386,10 +390,19 @@ export class GameSceneBase extends Phaser.Scene {
         borderColor: 0xffffff
       });
       this.fillRect(this.lifeBarBg, {x: offsetX, y: offsetY, height: 100, width: 240, percent: 1, color: 0xd8c880, borderColor:0xffffff});
-
+      this.dmgText.setText(`DMG: ${this.player.damage}`);
+      this.hpText.setText(`HP: ${this.player.health}`);
+      this.speedText.setText(`SPEED: ${this.player.speed}`);
     }
     powerupPlayer(powerup) {
-      this.player[powerup.type] += powerup.modifier;
+      const modified = this.player[powerup.type] + powerup.modifier;
+      if (powerup.type === 'health') {
+        this.player.health = Math.min(modified, this.player.maxHealth);
+      } else if (powerup.type === 'damage') {
+        this.player.damage = Math.max(5, modified);
+      } else if (powerup.type === 'speed') {
+        this.player.speed = Math.max(20, modified);
+      }
   }
 
   dropPowerups(enemy) {
@@ -534,7 +547,6 @@ export class GameSceneBase extends Phaser.Scene {
       this.enemies.forEach(enemy => {
           if (enemy.health <= 0) {
               enemy.destroy();
-              debugger;
               this.lastDeadEnemyTime = time;
           } else {
               if ( this.playerEnemyDelta(enemy) ) {
