@@ -5,7 +5,10 @@ import kyci from '../assets/images/Kyci.png';
 import penka from '../assets/images/Penka.png';
 import penka2 from '../assets/images/Penka2.png';
 import bratuto from '../assets/images/Bratuto.png';
-import scene1 from '../assets/images/dialog_scene_1.png';
+import coffeeshop from '../assets/images/dialog_scene_1.png';
+import city from '../assets/images/dilago_pre_scene_1.png';
+import hospital from '../assets/images/hospital.png';
+// import scene3 from '../assets/images/dialog_scene_1.png';
 
 export class DialogScene extends Phaser.Scene {
     constructor() {
@@ -14,7 +17,11 @@ export class DialogScene extends Phaser.Scene {
 
     preload() {
         this.load.scenePlugin('DialogModalPlugin', DialogModalPlugin);
-        this.load.image('scene1', scene1);
+        this.load.image('pre_scene1', city);
+        this.load.image('scene1', coffeeshop);
+        this.load.image('pre_scene2', hospital);
+        this.load.image('scene2', city);
+        this.load.image('endgame', city);
         this.load.image('kyciAvatar1', kyci);
         this.load.image('penkaAvatar1', penka);
         this.load.image('penka2Avatar1', penka2);
