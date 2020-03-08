@@ -27,11 +27,8 @@ export class Level1Scene extends GameSceneBase {
         this.enemiesCount = 3;
         this.createPlayer();
       
-        // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
-        // Phaser's cache (i.e. the name you used in preload)
         const tileset = this.map.addTilesetImage("tileset", "tiles");
       
-        // Parameters: layer name (or index) from Tiled, tileset, x, y
         this.belowLayer = this.map.createStaticLayer("bellow", tileset, 0, 0);
         this.worldLayer = this.map.createStaticLayer("world", tileset, 0, 0);
         this.aboveLayer = this.map.createStaticLayer("above", tileset, 0, 0);
@@ -230,9 +227,8 @@ export class Level1Scene extends GameSceneBase {
                 
             }
             enemy.lastHit = time;
-            // Get bullet from bullets group
             player.health -= enemy.damage;
-            this.sound.play('grunt');
+            // this.sound.play('grunt');
         }
 
         if ((time - enemy.lastHit) >= 200 && enemy.isHitting) {

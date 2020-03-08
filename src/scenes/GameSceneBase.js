@@ -167,7 +167,10 @@ export class GameSceneBase extends Phaser.Scene {
           this.fightAlarm = 10;
         });
 
-        this.text = this.add.text(220, 240).setScrollFactor(0).setFontSize(16).setColor('#ffffff');;
+        this.sound.play('music', {
+            volume: 0.2,
+            loop: true
+        });
     }
 
     createPlayer() {   
@@ -203,9 +206,10 @@ export class GameSceneBase extends Phaser.Scene {
       this.hitzone.duration = 5;
       this.physics.add.collider(this.hitzone, this.enemiesGroup, (phitzone, enemy) => {
           phitzone.destroy();
+          console.log('aaaa');
           enemy.health -= player.damage;
       });
-      this.sound.play('slap');
+      // this.sound.play('slap');
     }
 
     fillRect(graphics, {x,y,percent,height, width, color, borderColor}) {

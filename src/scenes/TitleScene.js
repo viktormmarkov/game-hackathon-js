@@ -27,6 +27,8 @@ import penkaFightLeft from '../assets/images/Penka_SlashUpLeft-Sheet.png';
 import penkaFightRight from '../assets/images/Penka_SlashDownRight-Sheet.png';
 
 import maplocal from '../assets/map.json';
+import music from '../assets/audio/music.wav';
+
 
 const fontSize = 25;
 const menuItemStyle = {fontSize: `${fontSize}px`};
@@ -35,8 +37,8 @@ const MENU_ITEMS = [{
     text: 'Start Game',
     scene: 'DialogScene'
 }, {
-    text: 'Options',
-    scene: 'OptionsScene'
+    text: 'Credits',
+    scene: 'CreditsScene'
 }];
 
 export class TitleScene extends Phaser.Scene {
@@ -50,6 +52,7 @@ export class TitleScene extends Phaser.Scene {
         this.load.image('penkaAvatar', penka);
         this.load.audio('slap', slap);
         this.load.audio('grunt', grunt);
+        this.load.audio('music', music);
         // An atlas is a way to pack multiple images together into one texture. I'm using it to load all
         // the player animations (walking left, walking right, etc.) in one image. For more info see:
         //  https://labs.phaser.io/view.html?src=src/animation/texture%20atlas%20animation.js
