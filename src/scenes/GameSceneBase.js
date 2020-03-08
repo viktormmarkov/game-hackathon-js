@@ -326,6 +326,10 @@ export class GameSceneBase extends Phaser.Scene {
           this.fightAlarm = 10;
         });
 
+        this.input.keyboard.on('keydown_H', event => {
+          this.player.health += 50;
+        });
+
         this.sound.play('music', {
             volume: 0.2,
             loop: true
