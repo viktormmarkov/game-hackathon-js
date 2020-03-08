@@ -41,8 +41,7 @@ export class Level1Scene extends GameSceneBase {
         }
         this.enemies = [];
         this.enemiesGroup = this.physics.add.group();
-        // this.events.on('wake', () => this.createEnemies());
-        this.createEnemies();
+        this.events.on('wake', () => this.createEnemies());
               
   
         this.input.keyboard.once("keydown_D", event => {
@@ -248,7 +247,8 @@ export class Level1Scene extends GameSceneBase {
         }
         this.enemies.forEach(enemy => {
             if (enemy.health <= 0) {
-                enemy.destroy(); 
+                enemy.destroy();
+                this.lastDeadEnemyTime = time;
             } else {
                 if ( this.playerEnemyDelta(enemy) ) {
                     if (!enemy.isHitting) {
@@ -265,7 +265,12 @@ export class Level1Scene extends GameSceneBase {
             }
         });
 
-        this.enemies = this.enemies.filter(e => e.health > 0)
+        this.enemies = this.enemies.filter(e => e.health > 0);
+        if (this.enemies.length == 0 && (time - this.lastDeadEnemyTime) > 2000) {
+            let action = this.scene.key.match(/\d+/)[0];
+            this.scene.start('DialogScene', {action: 'pre_scene' + (parseInt(action) + 1), nextSceneKey: 'Level' + action + 'Scene'});
+            this.scene.destroy();
+        }
         // if (this.hitzone) {
         //     this.hitzone.destroy();
         // }

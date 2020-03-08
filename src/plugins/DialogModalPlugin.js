@@ -1,11 +1,14 @@
 export var DialogModalPlugin = function (scene) {
   // the scene that owns the plugin
-  this.scene = scene;
+  this.master = scene;
+  this.scene = scene.scene;
   this.systems = scene.sys;
  
   if (!scene.sys.settings.isBooted) {
     scene.sys.events.once('boot', this.boot, this);
   }
+
+  this.scene.setVisible(true);
 };
  
 // Register this plugin with the PluginManager
@@ -65,12 +68,12 @@ DialogModalPlugin.prototype = {
 
   // Gets the width of the game (based on the scene)
   _getGameWidth: function () {
-    return this.scene.sys.game.config.width;
+    return this.systems.game.config.width;
   },
   
   // Gets the height of the game (based on the scene)
   _getGameHeight: function () {
-    return this.scene.sys.game.config.height;
+    return this.systems.game.config.height;
   },
   
   // Calculates where to place the dialog window based on the game size
@@ -103,17 +106,15 @@ DialogModalPlugin.prototype = {
     var gameHeight = this._getGameHeight();
     var gameWidth = this._getGameWidth();
     var dimensions = this._calculateWindowDimensions(gameWidth, gameHeight);
-    this.graphics = this.scene.add.graphics();
+    this.graphics = this.master.add.graphics();
 
     this._createOuterWindow(dimensions.x, dimensions.y, dimensions.rectWidth, dimensions.rectHeight);
     this._createInnerWindow(dimensions.x, dimensions.y, dimensions.rectWidth, dimensions.rectHeight);
-    this._createCloseModalButton();
-    this._createCloseModalButtonBorder();
   },
   // Creates the close dialog window button
   _createCloseModalButton: function () {
     var self = this;
-    this.closeBtn = this.scene.make.text({
+    this.closeBtn = this.master.make.text({
       x: this._getGameWidth() - this.padding - 14,
       y: this._getGameHeight() - this.windowHeight - this.padding + 3,
       text: 'X',
@@ -161,8 +162,12 @@ DialogModalPlugin.prototype = {
       this.setText(this.dialogArray[++this.dialogIndex].text, true);
     } else {
         this.setText("finished", true);
-        this.scene.scene.wake(this.nextScene);
-        this.scene.scene.destroy();
+        if (this.scene.isSleeping(this.nextScene)) {
+          this.scene.wake(this.nextScene);
+        } else {
+          this.scene.start(this.nextScene);
+        }
+        this.scene.setVisible(false, 'DialogScene');
     }
   },
 
@@ -181,7 +186,7 @@ DialogModalPlugin.prototype = {
     this._setText(tempText);
   
     if (animate) {
-      this.timedEvent = this.scene.time.addEvent({
+      this.timedEvent = this.master.time.addEvent({
         delay: 150 - (this.dialogSpeed * 30),
         callback: this._animateText,
         callbackScope: this,
@@ -207,7 +212,7 @@ DialogModalPlugin.prototype = {
     var x = this.padding + 10;
     var y = this._getGameHeight() - this.windowHeight - this.padding + 10;
   
-    this.text = this.scene.make.text({
+    this.text = this.master.make.text({
       x,
       y,
       text,

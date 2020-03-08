@@ -1,7 +1,12 @@
 {
-    "scene1": [
+    "pre_scene1": [
         {
             "text": "hi",
+            "character": "kyci"
+
+        },
+        {
+            "text": "здрав",
             "character": "penka"
         },
         {
@@ -9,7 +14,81 @@
             "character": "kyci"
 
         },
+        {
+            "text": "Bring me my bag NOW!!!!!!!!",
+            "character": "penka"
+        },
 
+        {
+            "character": "kyci",
+            "text": "Fuck you fucking bitch"
+        }
+    ],
+    "scene1": [
+        {
+            "text": "hi2",
+            "character": "kyci"
+
+        },
+        {
+            "text": "здрав",
+            "character": "penka"
+        },
+        {
+            "text": "hi",
+            "character": "kyci"
+
+        },
+        {
+            "text": "Bring me my bag NOW!!!!!!!!",
+            "character": "penka"
+        },
+
+        {
+            "character": "kyci",
+            "text": "Fuck you fucking bitch"
+        }
+    ],    
+    "pre_scene2": [
+        {
+            "text": "hi3",
+            "character": "kyci"
+
+        },
+        {
+            "text": "здрав",
+            "character": "penka"
+        },
+        {
+            "text": "hi",
+            "character": "kyci"
+
+        },
+        {
+            "text": "Bring me my bag NOW!!!!!!!!",
+            "character": "penka"
+        },
+
+        {
+            "character": "kyci",
+            "text": "Fuck you fucking bitch"
+        }
+    ],
+    "scene2": [
+        {
+            "text": "hi4",
+            "character": "kyci"
+
+        },
+        {
+            "text": "здрав",
+            "character": "penka"
+        },
+        {
+            "text": "hi",
+            "character": "kyci"
+
+        },
         {
             "text": "Bring me my bag NOW!!!!!!!!",
             "character": "penka"

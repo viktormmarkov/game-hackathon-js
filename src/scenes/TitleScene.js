@@ -33,7 +33,7 @@ const menuItemStyle = {fontSize: `${fontSize}px`};
 
 const MENU_ITEMS = [{
     text: 'Start Game',
-    scene: 'Level1Scene'
+    scene: 'DialogScene'
 }, {
     text: 'Options',
     scene: 'OptionsScene'
