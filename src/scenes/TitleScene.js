@@ -26,6 +26,11 @@ import penkaFightUp from '../assets/images/Penka_SlashUpRight-Sheet.png';
 import penkaFightLeft from '../assets/images/Penka_SlashUpLeft-Sheet.png';
 import penkaFightRight from '../assets/images/Penka_SlashDownRight-Sheet.png';
 
+import damage from '../assets/images/PowerupDmg.png';
+import health from '../assets/images/PowerupHP.png';
+import speed from '../assets/images/PowerupSpeed.png';
+
+
 import maplocal from '../assets/map.json';
 import music from '../assets/audio/music.wav';
 
@@ -78,6 +83,10 @@ export class TitleScene extends Phaser.Scene {
         this.load.spritesheet("penkaFightUp", penkaFightUp, {frameWidth: 34, frameHeight: 44})
         this.load.spritesheet("penkaFightLeft", penkaFightLeft, {frameWidth: 34, frameHeight: 40})
         this.load.spritesheet("penkaFightRight", penkaFightRight, {frameWidth: 34, frameHeight: 40})
+
+        this.load.image('health', health);
+        this.load.image('damage', damage);
+        this.load.image('speed', speed);
 
         // this.load.image('background', background);
     }

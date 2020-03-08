@@ -395,16 +395,16 @@ export class GameSceneBase extends Phaser.Scene {
   dropPowerups(enemy) {
       const sumX = this.player.x > enemy.x ? -20 : 20;
       const sumY = this.player.y > enemy.y ? -20 : 20;
-      const powerup = this.physics.add.sprite(enemy.x + sumX * (Math.random()), enemy.y + sumY * (Math.random()) , 'hitzone');
+      const powerupModifier = getPowerup();
+      const fontStyle = {
+          fontSize: '40px',
+          color: powerupModifier.color
+      }
+      const powerup = this.physics.add.sprite(enemy.x + sumX * (Math.random()), enemy.y + sumY * (Math.random()) , powerupModifier.type);
 
-      // const powerup = this.add.sprite(enemy.x, enemy.y, 'powerup').setOrigin(0.5, 0.5);
       this.physics.add.overlap(powerup, this.player, (powerup) => {
           powerup.destroy();
-          const powerupModifier = getPowerup();
-          const fontStyle = {
-              fontSize: '40px',
-              color: powerupModifier.color
-          }
+         
           const text = this.add.text(powerup.x, powerup.y, powerupModifier.text, fontStyle).setOrigin(0.5, 0.5)
           this.tweens.add({
               targets: text,  
