@@ -217,7 +217,8 @@ DialogModalPlugin.prototype = {
       y,
       text,
       style: {
-        wordWrap: { width: this._getGameWidth() - (this.padding * 2) - 25 }
+        wordWrap: { width: this._getGameWidth() - (this.padding * 2) - 25 },
+        fontSize: "35px"
       }
     });
   }
