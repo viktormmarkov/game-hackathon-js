@@ -31,7 +31,11 @@ export class Level2Scene extends GameSceneBase {
         }
         this.enemies = [];
         this.enemiesGroup = this.physics.add.group();
-        this.events.on('wake', () => this.createEnemies('penka', 4));
+        this.events.on('wake', () => {
+            this.createEnemies('penka', 1, 3, 40, 30, 40);
+            this.enemiesCount = 1;
+            this.createEnemies('bratuto', 1, 20, 100, 25, 40);
+        });
               
   
         this.input.keyboard.once("keydown_D", event => {
@@ -51,9 +55,5 @@ export class Level2Scene extends GameSceneBase {
         });
   
         super.create();
-    }
-
-    update(time) { 
-        super.update();
     }
 }

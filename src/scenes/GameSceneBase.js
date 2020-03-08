@@ -57,7 +57,10 @@ export class GameSceneBase extends Phaser.Scene {
             }
             delete tile.properties.action;
         }); 
-
+        this.delta = {
+          x: 40,
+          y: 50
+      }
         // Create the player's walking animations from the texture atlas. These are stored in the global
         // animation manager so any sprite can access them.
         const anims = this.anims;
@@ -187,6 +190,107 @@ export class GameSceneBase extends Phaser.Scene {
           frameRate: 10,
           repeat: 0
       });
+
+
+      this.anims.create({
+        key: 'penka2Down',
+        frames: this.anims.generateFrameNumbers('penka2Down', { start: 0, end: 3 }),
+        frameRate: 10,
+        repeat: -1
+      });
+    this.anims.create({
+        key: 'penka2Up',
+        frames: this.anims.generateFrameNumbers('penka2Up', { start: 0, end: 3 }),
+        frameRate: 10,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'penka2Left',
+        frames: this.anims.generateFrameNumbers('penka2Left', { start: 0, end: 3 }),
+        frameRate: 10,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'penka2Right',
+        frames: this.anims.generateFrameNumbers('penka2Right', { start: 0, end: 3 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'penka2FightDown',
+        frames: this.anims.generateFrameNumbers('penka2FightDown', { start: 0, end: 3 }),
+        frameRate: 10,
+        repeat: 0
+    });
+    this.anims.create({
+        key: 'penka2FightUp',
+        frames: this.anims.generateFrameNumbers('penka2FightUp', { start: 0, end: 3 }),
+        frameRate: 10,
+        repeat: 0
+    });
+    this.anims.create({
+        key: 'penka2FightLeft',
+        frames: this.anims.generateFrameNumbers('penka2FightLeft', { start: 0, end: 3 }),
+        frameRate: 10,
+        repeat: 0
+    });
+    this.anims.create({
+        key: 'penka2FightRight',
+        frames: this.anims.generateFrameNumbers('penka2FightRight', { start: 0, end: 3 }),
+        frameRate: 10,
+        repeat: 0
+    });
+
+    this.anims.create({
+      key: 'bratutoDown',
+      frames: this.anims.generateFrameNumbers('bratutoDown', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+    });
+  this.anims.create({
+      key: 'bratutoUp',
+      frames: this.anims.generateFrameNumbers('bratutoUp', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+  });
+  this.anims.create({
+      key: 'bratutoLeft',
+      frames: this.anims.generateFrameNumbers('bratutoLeft', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+  });
+  this.anims.create({
+      key: 'bratutoRight',
+      frames: this.anims.generateFrameNumbers('bratutoRight', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+  });
+
+  this.anims.create({
+      key: 'bratutoFightDown',
+      frames: this.anims.generateFrameNumbers('bratutoFightDown', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: 0
+  });
+  this.anims.create({
+      key: 'bratutoFightUp',
+      frames: this.anims.generateFrameNumbers('bratutoFightUp', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: 0
+  });
+  this.anims.create({
+      key: 'bratutoFightLeft',
+      frames: this.anims.generateFrameNumbers('bratutoFightLeft', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: 0
+  });
+  this.anims.create({
+      key: 'bratutoFightRight',
+      frames: this.anims.generateFrameNumbers('bratutoFightRight', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: 0
+  });
 
         const camera = this.cameras.main;
         camera.startFollow(this.player);
@@ -419,19 +523,20 @@ export class GameSceneBase extends Phaser.Scene {
       });
   }
 
-  createEnemies(sprite, scale = 1) {
+  createEnemies(sprite, scale, damage, health, sizeX, sizeY) {
       for (let i = 0; i < this.enemiesCount; i ++) {
           const enemy = this.physics.add
               .sprite(Math.random() * 50, Math.random() * 150, sprite + "Left", 0)
-              .setSize(30, 40)
-              .setOffset(0, 0)
+              .setOffset(20, 20)
               .setScale(scale, scale)
+              .setSize(sizeX, sizeY)
               .setDepth(config.playerDepth);
+              
           enemy.body.immovable = true;
           enemy.lastHit = 0;
-          enemy.damage = 2.5;
+          enemy.damage = damage;
           enemy.spriteName = sprite;
-          enemy.health = 40;
+          enemy.health = health;
           enemy.on('destroy', () => {
               this.dropPowerups(enemy);
           })
@@ -529,7 +634,8 @@ export class GameSceneBase extends Phaser.Scene {
       this.updatePlayer();
       this.updateLifebar();
       if (this.player.health <= 0) {
-        this.scene.start('EndGame');
+        this.physics.add.sprite(this.player.x, this.player.y , 'tombstone');
+        this.player.destroy();
       }
       this.enemies.forEach(enemy => {
           if (enemy.health <= 0) {

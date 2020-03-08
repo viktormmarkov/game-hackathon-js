@@ -25,13 +25,10 @@ export class Level1Scene extends GameSceneBase {
         this.belowLayer = this.map.createStaticLayer("bellow", tileset, 0, 0);
         this.worldLayer = this.map.createStaticLayer("world", tileset, 0, 0);
         this.aboveLayer = this.map.createStaticLayer("above", tileset, 0, 0);
-        this.delta = {
-            x: 30,
-            y: 40
-        }
+
         this.enemies = [];
         this.enemiesGroup = this.physics.add.group();
-        this.events.on('wake', () => this.createEnemies('penka', 1));
+        this.events.on('wake', () => this.createEnemies('penka2', 1, 5, 30, 30, 40));
               
   
         this.input.keyboard.once("keydown_D", event => {
