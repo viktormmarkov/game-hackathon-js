@@ -19,8 +19,8 @@ export class DialogScene extends Phaser.Scene {
         this.load.scenePlugin('DialogModalPlugin', DialogModalPlugin);
         this.load.image('pre_scene1', city);
         this.load.image('scene1', coffeeshop);
-        this.load.image('pre_scene2', hospital);
-        this.load.image('scene2', city);
+        this.load.image('pre_scene2', city);
+        this.load.image('scene2', hospital);
         this.load.image('endgame', city);
         this.load.image('kyciAvatar1', kyci);
         this.load.image('penkaAvatar1', penka);
