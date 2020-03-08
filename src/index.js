@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { TitleScene } from "./scenes/TitleScene";
 import { CreditsScene } from "./scenes/CreditsScene";
 import { Level1Scene } from "./scenes/Level1Scene";
+import { Level2Scene } from "./scenes/Level2Scene";
 import { DialogScene } from "./scenes/DialogScene";
 import { EndGame } from "./scenes/EndGame";
 
@@ -12,7 +13,7 @@ export const config = {
   parent: "phaser-example",
   width: 1802,
   height: 1020,
-  scene: [TitleScene, DialogScene, Level1Scene, CreditsScene, EndGame],
+  scene: [TitleScene, DialogScene, Level1Scene, Level2Scene, CreditsScene, EndGame],
   physics: {
     default: "arcade",
     arcade: {

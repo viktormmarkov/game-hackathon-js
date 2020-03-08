@@ -4,9 +4,9 @@ import hitzone from '../assets/images/hitzone.png';
 import tombstone from '../assets/images/tombstone.png';
 import {config} from '../index';
 
-export class Level1Scene extends GameSceneBase {
+export class Level2Scene extends GameSceneBase {
     constructor() {
-        super('Level1Scene');
+        super('Level2Scene');
     }
 
     preload() {
@@ -17,7 +17,7 @@ export class Level1Scene extends GameSceneBase {
 
     create() {
         this.map = this.make.tilemap({ key: "map" });
-        this.enemiesCount = 1;
+        this.enemiesCount = 2;
         this.createPlayer();
       
         const tileset = this.map.addTilesetImage("tileset", "tiles");
@@ -31,7 +31,7 @@ export class Level1Scene extends GameSceneBase {
         }
         this.enemies = [];
         this.enemiesGroup = this.physics.add.group();
-        this.events.on('wake', () => this.createEnemies('penka', 1));
+        this.events.on('wake', () => this.createEnemies('penka', 4));
               
   
         this.input.keyboard.once("keydown_D", event => {
@@ -51,5 +51,9 @@ export class Level1Scene extends GameSceneBase {
         });
   
         super.create();
+    }
+
+    update(time) { 
+        super.update();
     }
 }

@@ -137,6 +137,57 @@ export class GameSceneBase extends Phaser.Scene {
           repeat: 0
         });
       
+
+        this.anims.create({
+          key: 'penkaDown',
+          frames: this.anims.generateFrameNumbers('penkaDown', { start: 0, end: 3 }),
+          frameRate: 10,
+          repeat: -1
+        });
+      this.anims.create({
+          key: 'penkaUp',
+          frames: this.anims.generateFrameNumbers('penkaUp', { start: 0, end: 3 }),
+          frameRate: 10,
+          repeat: -1
+      });
+      this.anims.create({
+          key: 'penkaLeft',
+          frames: this.anims.generateFrameNumbers('penkaLeft', { start: 0, end: 3 }),
+          frameRate: 10,
+          repeat: -1
+      });
+      this.anims.create({
+          key: 'penkaRight',
+          frames: this.anims.generateFrameNumbers('penkaRight', { start: 0, end: 3 }),
+          frameRate: 10,
+          repeat: -1
+      });
+
+      this.anims.create({
+          key: 'penkaFightDown',
+          frames: this.anims.generateFrameNumbers('penkaFightDown', { start: 0, end: 3 }),
+          frameRate: 10,
+          repeat: 0
+      });
+      this.anims.create({
+          key: 'penkaFightUp',
+          frames: this.anims.generateFrameNumbers('penkaFightUp', { start: 0, end: 3 }),
+          frameRate: 10,
+          repeat: 0
+      });
+      this.anims.create({
+          key: 'penkaFightLeft',
+          frames: this.anims.generateFrameNumbers('penkaFightLeft', { start: 0, end: 3 }),
+          frameRate: 10,
+          repeat: 0
+      });
+      this.anims.create({
+          key: 'penkaFightRight',
+          frames: this.anims.generateFrameNumbers('penkaFightRight', { start: 0, end: 3 }),
+          frameRate: 10,
+          repeat: 0
+      });
+
         const camera = this.cameras.main;
         camera.startFollow(this.player);
         camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
@@ -198,7 +249,7 @@ export class GameSceneBase extends Phaser.Scene {
       const player = this.player;
       const range = player.range;
       const direction = player.direction || {x: 0, y:0};
-      const initialy = player.y // uglyhack;
+      const initialy = player.y
       const x = direction.x ? player.x + range * direction.x : player.x;
       const y = initialy ? initialy + range * direction.y : initialy;
       this.hitzone && this.hitzone.destroy();
@@ -368,16 +419,18 @@ export class GameSceneBase extends Phaser.Scene {
       });
   }
 
-  createEnemies(sprite = 'misa-front') {
+  createEnemies(sprite, scale = 1) {
       for (let i = 0; i < this.enemiesCount; i ++) {
           const enemy = this.physics.add
-              .sprite(Math.random() * 50, Math.random() * 150, "penkaLeft", 0)
+              .sprite(Math.random() * 50, Math.random() * 150, sprite + "Left", 0)
               .setSize(30, 40)
               .setOffset(0, 0)
+              .setScale(scale, scale)
               .setDepth(config.playerDepth);
           enemy.body.immovable = true;
           enemy.lastHit = 0;
           enemy.damage = 2.5;
+          enemy.spriteName = sprite;
           enemy.health = 40;
           enemy.on('destroy', () => {
               this.dropPowerups(enemy);
@@ -418,17 +471,17 @@ export class GameSceneBase extends Phaser.Scene {
       const deltaY = Math.abs(this.player.y - enemy.y);
       if (deltaX >= deltaY) {
           if (this.player.x >= enemy.x) {
-              enemy.anims.play("penkaRight", true, 0);
+              enemy.anims.play(enemy.spriteName + "Right", true, 0);
           } else if (this.player.x < enemy.x){
-              enemy.anims.play("penkaLeft", true, 0);
+              enemy.anims.play(enemy.spriteName + "Left", true, 0);
           } else {
               enemy.anims.stop();
           }
       } else {
           if (this.player.y >= enemy.y) {
-              enemy.anims.play("penkaDown", true, 0);
+              enemy.anims.play(enemy.spriteName + "Down", true, 0);
           } else if (this.player.y < enemy.y){
-              enemy.anims.play("penkaUp", true, 0);
+              enemy.anims.play(enemy.spriteName + "Up", true, 0);
           } else {
               enemy.anims.stop();
           }
@@ -449,15 +502,15 @@ export class GameSceneBase extends Phaser.Scene {
           enemy.isHitting = true;
           if (Math.abs(xDif) > Math.abs(yDif)) {
               if (xDif < 0) {
-                  enemy.anims.play("penkaFightRight", true, 0);
+                  enemy.anims.play(enemy.spriteName + "FightRight", true, 0);
               } else {
-                  enemy.anims.play("penkaFightLeft", true, 0);
+                  enemy.anims.play(enemy.spriteName + "FightLeft", true, 0);
               }
           } else {
               if (yDif > 0) {
-                  enemy.anims.play("penkaFightUp", true, 0);
+                  enemy.anims.play(enemy.spriteName + "FightUp", true, 0);
               } else {
-                  enemy.anims.play("penkaFightDown", true, 0);                    
+                  enemy.anims.play(enemy.spriteName + "FightDown", true, 0);                    
               }
               
           }
@@ -481,6 +534,7 @@ export class GameSceneBase extends Phaser.Scene {
       this.enemies.forEach(enemy => {
           if (enemy.health <= 0) {
               enemy.destroy();
+              debugger;
               this.lastDeadEnemyTime = time;
           } else {
               if ( this.playerEnemyDelta(enemy) ) {
@@ -499,9 +553,9 @@ export class GameSceneBase extends Phaser.Scene {
       });
 
       this.enemies = this.enemies.filter(e => e.health > 0);
-      if (this.enemies.length == 0 && (time - this.lastDeadEnemyTime) > 2000) {
+      if (this.enemies.length == 0 && (time - this.lastDeadEnemyTime) > 2000 && this.scene.scene) {
           let action = this.scene.key.match(/\d+/)[0];
-          this.scene.start('DialogScene', {action: 'pre_scene' + (parseInt(action) + 1), nextSceneKey: 'Level' + action + 'Scene'});
+          this.scene.start('DialogScene', {action: 'pre_scene' + (parseInt(action) + 1), nextSceneKey: 'Level' + (parseInt(action) + 1) + 'Scene'});
           this.scene.destroy();
       }
     }
