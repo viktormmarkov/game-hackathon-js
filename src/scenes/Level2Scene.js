@@ -16,7 +16,7 @@ export class Level2Scene extends GameSceneBase {
     }
 
     create() {
-        this.map = this.make.tilemap({ key: "map" });
+        this.map = this.make.tilemap({ key: "map2" });
         this.enemiesCount = 2;
         this.createPlayer();
       

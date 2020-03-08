@@ -18,7 +18,7 @@ export class DialogScene extends Phaser.Scene {
         this.load.image('kyciAvatar1', kyci);
         this.load.image('penkaAvatar1', penka);
         this.load.image('penka2Avatar1', penka2);
-        this.load.image('bratutoBigAvatar1', bratuto);
+        this.load.image('bratutoAvatar1', bratuto);
     }
 
     create(opts) {

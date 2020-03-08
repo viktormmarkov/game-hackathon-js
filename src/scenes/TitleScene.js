@@ -54,6 +54,7 @@ import speed from '../assets/images/PowerupSpeed.png';
 
 
 import maplocal from '../assets/map.json';
+import map2local from '../assets/map2.json';
 import music from '../assets/audio/music.wav';
 
 
@@ -75,6 +76,7 @@ export class TitleScene extends Phaser.Scene {
     preload() {
         this.load.image("tiles", tilesetlocal);
         this.load.tilemapTiledJSON("map", maplocal);
+        this.load.tilemapTiledJSON("map2", map2local);
         this.load.image('kyciAvatar', kyci);
         this.load.image('tombstone', tombstone);
         this.load.image('penkaAvatar', penka);

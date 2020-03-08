@@ -674,7 +674,9 @@ export class GameSceneBase extends Phaser.Scene {
       if (this.enemies.length == 0 && (time - this.lastDeadEnemyTime) > 2000 && this.scene.scene) {
           let action = this.scene.key.match(/\d+/)[0];
           if (action == 2) {
-            this.scene.start('CreditsScene');
+            // this.scene.start('CreditsScene');
+            this.scene.start('DialogScene', {action: 'endgame', nextSceneKey: 'CreditsScene'});
+
           } else {
             this.scene.start('DialogScene', {action: 'pre_scene' + (parseInt(action) + 1), nextSceneKey: 'Level' + (parseInt(action) + 1) + 'Scene'});
             this.scene.destroy();
