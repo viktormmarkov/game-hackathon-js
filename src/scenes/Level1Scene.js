@@ -118,15 +118,15 @@ export class Level1Scene extends GameSceneBase {
     dropPowerups(enemy) {
         const sumX = this.player.x > enemy.x ? -20 : 20;
         const sumY = this.player.y > enemy.y ? -20 : 20;
-        this.physics.add.sprite(enemy.x + sumX * (Math.random()), enemy.y + sumY * (Math.random()) , 'tombstone');
-        this.powerup = this.physics.add.sprite(enemy.x + sumX * (Math.random()), enemy.y + sumY * (Math.random()) , 'hitzone');
+        this.physics.add.sprite(enemy.x, enemy.y, 'tombstone');
+        const powerup = this.physics.add.sprite(enemy.x + sumX * (Math.random()), enemy.y + sumY * (Math.random()) , 'hitzone');
 
         // const powerup = this.add.sprite(enemy.x, enemy.y, 'powerup').setOrigin(0.5, 0.5);
-        this.physics.add.overlap(this.powerup, this.player, () => {
-            this.powerup.destroy();
-            const text = this.add.text(this.powerup.x, this.powerup.y, '+10dmg', fontStyle).setOrigin(0.5, 0.5)
+        this.physics.add.overlap(powerup, this.player, (powerup) => {
+            powerup.destroy();
+            const text = this.add.text(powerup.x, powerup.y, '+10dmg', fontStyle).setOrigin(0.5, 0.5)
             this.tweens.add({
-                targets: text,
+                targets: text,  
                 scale: { from: 1, to: 0},
                 y: { from: text.y, to: text.y - 50},
                 ease: 'Linear',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
@@ -149,14 +149,6 @@ export class Level1Scene extends GameSceneBase {
             enemy.damage = 2.5;
             enemy.health = 40;
             enemy.on('destroy', () => {
-                const sumX = this.player.x > enemy.x ? -20 : 20;
-                const sumY = this.player.y > enemy.y ? -20 : 20;
-                this.powerup = this.physics.add.sprite(enemy.x + sumX * (Math.random()), enemy.y + sumY * (Math.random()) , 'tombstone');
-
-                // const powerup = this.add.sprite(enemy.x, enemy.y, 'hitzone').setOrigin(0.5, 0.5);
-                this.physics.add.overlap(this.powerup, this.player, () => {
-                    // this.player.health = 0;
-                });
                 this.dropPowerups(enemy);
             })
             this.enemiesGroup.add(enemy);
@@ -243,6 +235,11 @@ export class Level1Scene extends GameSceneBase {
             player.health -= enemy.damage;
             this.sound.play('grunt');
         }
+
+        if ((time - enemy.lastHit) >= 200 && enemy.isHitting) {
+            enemy.isHitting = false;
+            enemy.anims.stop();
+        }
     }
 
     update(time) { 
@@ -261,7 +258,7 @@ export class Level1Scene extends GameSceneBase {
                     this.hitPlayer(enemy, this.player, time);
                     enemy.setVelocity(0);
                 }
-                if ((time - enemy.lastHit) >= 500 && (time - enemy.lastHit) < 1000) {
+                if ((time - enemy.lastHit) >= 200 && enemy.isHitting) {
                     enemy.isHitting = false;
                     enemy.anims.stop();
                 }

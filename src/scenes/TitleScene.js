@@ -11,8 +11,8 @@ import charlocal_fight_down from '../assets/images/Character_SlashDownLeft-Sheet
 import charlocal_fight_up from '../assets/images/Character_SlashUpRight-Sheet.png';
 import charlocal_fight_left from '../assets/images/Character_SlashUpLeft-Sheet.png';
 import charlocal_fight_right from '../assets/images/Character_SlashDownRight-Sheet.png';
-import kyci from '../assets/images/kyci.png';
-import penka from '../assets/images/penka.png';
+import kyci from '../assets/images/Kyci.png';
+import penka from '../assets/images/Penka.png';
 import slap from '../assets/audio/slap2.wav';
 import grunt from '../assets/audio/grunt.wav';
 

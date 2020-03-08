@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
 import {DialogModalPlugin} from '../plugins/DialogModalPlugin'
 import Dialogs from '../assets/dialogs/dialogs.json'
-import kyci from '../assets/images/kyci.png';
-import penka from '../assets/images/penka.png';
+import kyci from '../assets/images/Kyci.png';
+import penka from '../assets/images/Penka.png';
 
 export class DialogScene extends Phaser.Scene {
     constructor() {
