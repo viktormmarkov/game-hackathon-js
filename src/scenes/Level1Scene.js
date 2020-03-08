@@ -231,9 +231,8 @@ export class Level1Scene extends GameSceneBase {
                 
             }
             enemy.lastHit = time;
-            // Get bullet from bullets group
             player.health -= enemy.damage;
-            this.sound.play('grunt');
+            // this.sound.play('grunt');
         }
 
         if ((time - enemy.lastHit) >= 200 && enemy.isHitting) {
