@@ -3,6 +3,7 @@ import {GameSceneBase} from './GameSceneBase';
 import hitzone from '../assets/images/hitzone.png';
 import tombstone from '../assets/images/tombstone.png';
 
+
 import {config} from '../index';
 const enemyXY = [{x: 50, y: 50}, {x: 100, y:100}, {x: 200, y:100}]
 export class Level1Scene extends GameSceneBase {
@@ -30,8 +31,8 @@ export class Level1Scene extends GameSceneBase {
         this.worldLayer = this.map.createStaticLayer("world", tileset, 0, 0);
         this.aboveLayer = this.map.createStaticLayer("above", tileset, 0, 0);
         this.delta = {
-            x: 60,
-            y: 60
+            x: 30,
+            y: 40
         }
         this.enemies = [];
         this.enemiesGroup = this.physics.add.group();
@@ -55,16 +56,66 @@ export class Level1Scene extends GameSceneBase {
         });
         });
   
-        super.create();  
+        super.create();
+
+        this.anims.create({
+            key: 'penkaDown',
+            frames: this.anims.generateFrameNumbers('penkaDown', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+          });
+          this.anims.create({
+            key: 'penkaUp',
+            frames: this.anims.generateFrameNumbers('penkaUp', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+          });
+          this.anims.create({
+            key: 'penkaLeft',
+            frames: this.anims.generateFrameNumbers('penkaLeft', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+          });
+          this.anims.create({
+            key: 'penkaRight',
+            frames: this.anims.generateFrameNumbers('penkaRight', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+          });
+  
+          this.anims.create({
+            key: 'penkaFightDown',
+            frames: this.anims.generateFrameNumbers('penkaFightDown', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: 0
+          });
+          this.anims.create({
+            key: 'penkaFightUp',
+            frames: this.anims.generateFrameNumbers('penkaFightUp', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: 0
+          });
+          this.anims.create({
+            key: 'penkaFightLeft',
+            frames: this.anims.generateFrameNumbers('penkaFightLeft', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: 0
+          });
+          this.anims.create({
+            key: 'penkaFightRight',
+            frames: this.anims.generateFrameNumbers('penkaFightRight', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: 0
+          });
 
     }
 
     createEnemies(sprite = 'misa-front') {
         for (let i = 0; i < this.enemiesCount; i ++) {
             const enemy = this.physics.add
-                .sprite(enemyXY[i].x, enemyXY[i].y, "atlas", sprite)
+                .sprite(enemyXY[i].x, enemyXY[i].y, "penkaLeft", 0)
                 .setSize(30, 40)
-                .setOffset(0, 24)
+                .setOffset(0, 0)
                 .setDepth(config.playerDepth);
             enemy.body.immovable = true;
             enemy.lastHit = 0;
@@ -76,10 +127,8 @@ export class Level1Scene extends GameSceneBase {
                 this.powerup = this.physics.add.sprite(enemy.x + sumX * (Math.random()), enemy.y + sumY * (Math.random()) , 'tombstone');
 
                 // const powerup = this.add.sprite(enemy.x, enemy.y, 'hitzone').setOrigin(0.5, 0.5);
-                console.log(this.player);
                 this.physics.add.overlap(this.powerup, this.player, () => {
-                    console.log('overlaaap');
-                    this.player.health = 0;
+                    // this.player.health = 0;
                 });
             })
             this.enemiesGroup.add(enemy);
@@ -99,7 +148,10 @@ export class Level1Scene extends GameSceneBase {
         const speed = config.enemySpeed;
 
         enemy.body.setVelocity(0);
-
+        
+        if (enemy.isHitting) {
+            return;
+        }
         if (this.player.x >= enemy.x) {
             enemy.body.setVelocityX(speed);
         } else {
@@ -115,17 +167,17 @@ export class Level1Scene extends GameSceneBase {
         const deltaY = Math.abs(this.player.y - enemy.y);
         if (deltaX >= deltaY) {
             if (this.player.x >= enemy.x) {
-                enemy.anims.play("misa-right-walk", true);
+                enemy.anims.play("penkaRight", true, 0);
             } else if (this.player.x < enemy.x){
-                enemy.anims.play("misa-left-walk", true);
+                enemy.anims.play("penkaLeft", true, 0);
             } else {
                 enemy.anims.stop();
             }
         } else {
             if (this.player.y >= enemy.y) {
-                enemy.anims.play("misa-front-walk", true);
+                enemy.anims.play("penkaDown", true, 0);
             } else if (this.player.y < enemy.y){
-                enemy.anims.play("misa-back-walk", true);
+                enemy.anims.play("penkaUp", true, 0);
             } else {
                 enemy.anims.stop();
             }
@@ -139,6 +191,25 @@ export class Level1Scene extends GameSceneBase {
             return;
         }
         if ((time - enemy.lastHit) > 1000) {
+            const enemyXY = enemy.getCenter();
+            const playerXY = this.player.getCenter();
+            const xDif = enemyXY.x - playerXY.x;
+            const yDif = enemyXY.y - playerXY.y;
+            enemy.isHitting = true;
+            if (Math.abs(xDif) > Math.abs(yDif)) {
+                if (xDif < 0) {
+                    enemy.anims.play("penkaFightRight", true, 0);
+                } else {
+                    enemy.anims.play("penkaFightLeft", true, 0);
+                }
+            } else {
+                if (yDif > 0) {
+                    enemy.anims.play("penkaFightUp", true, 0);
+                } else {
+                    enemy.anims.play("penkaFightDown", true, 0);                    
+                }
+                
+            }
             enemy.lastHit = time;
             // Get bullet from bullets group
             player.health -= enemy.damage;
@@ -154,9 +225,16 @@ export class Level1Scene extends GameSceneBase {
                 enemy.destroy(); 
             } else {
                 if ( this.playerEnemyDelta(enemy) ) {
-                    this.followPlayer(enemy);
+                    if (!enemy.isHitting) {
+                        this.followPlayer(enemy);
+                    }
                 } else {
                     this.hitPlayer(enemy, this.player, time);
+                    enemy.setVelocity(0);
+                }
+                if ((time - enemy.lastHit) >= 500 && (time - enemy.lastHit) < 1000) {
+                    enemy.isHitting = false;
+                    enemy.anims.stop();
                 }
             }
         });

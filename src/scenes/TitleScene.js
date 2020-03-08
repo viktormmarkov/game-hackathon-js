@@ -13,6 +13,16 @@ import charlocal_fight_up from '../assets/images/Character_SlashUpRight-Sheet.pn
 import charlocal_fight_left from '../assets/images/Character_SlashUpLeft-Sheet.png';
 import charlocal_fight_right from '../assets/images/Character_SlashDownRight-Sheet.png';
 
+import penkaDown from '../assets/images/Penka_Down-Sheet.png';
+import penkaUp from '../assets/images/Penka_Up-Sheet.png';
+import penkaLeft from '../assets/images/Penka_Left-Sheet.png';
+import penkaRight from '../assets/images/Penka_Right-Sheet.png';
+
+import penkaFightDown from '../assets/images/Penka_SlashDownLeft-Sheet.png';
+import penkaFightUp from '../assets/images/Penka_SlashUpRight-Sheet.png';
+import penkaFightLeft from '../assets/images/Penka_SlashUpLeft-Sheet.png';
+import penkaFightRight from '../assets/images/Penka_SlashDownRight-Sheet.png';
+
 import maplocal from '../assets/map.json';
 
 const fontSize = 25;
@@ -49,6 +59,17 @@ export class TitleScene extends Phaser.Scene {
         this.load.spritesheet("sprCharFightUp", charlocal_fight_up, {frameWidth: 34, frameHeight: 44})
         this.load.spritesheet("sprCharFightLeft", charlocal_fight_left, {frameWidth: 34, frameHeight: 40})
         this.load.spritesheet("sprCharFightRight", charlocal_fight_right, {frameWidth: 34, frameHeight: 40})
+
+        this.load.spritesheet("penkaDown", penkaDown, {frameWidth: 32, frameHeight: 42})
+        this.load.spritesheet("penkaUp", penkaUp, {frameWidth: 32, frameHeight: 42})
+        this.load.spritesheet("penkaLeft", penkaLeft, {frameWidth: 32, frameHeight: 42})
+        this.load.spritesheet("penkaRight", penkaRight, {frameWidth: 32, frameHeight: 42})
+
+        this.load.spritesheet("penkaFightDown", penkaFightDown, {frameWidth: 32, frameHeight: 44})
+        this.load.spritesheet("penkaFightUp", penkaFightUp, {frameWidth: 34, frameHeight: 44})
+        this.load.spritesheet("penkaFightLeft", penkaFightLeft, {frameWidth: 34, frameHeight: 40})
+        this.load.spritesheet("penkaFightRight", penkaFightRight, {frameWidth: 34, frameHeight: 40})
+
         this.load.image('background', background);
     }
     create() {
