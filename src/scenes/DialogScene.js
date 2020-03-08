@@ -3,6 +3,8 @@ import {DialogModalPlugin} from '../plugins/DialogModalPlugin'
 import Dialogs from '../assets/dialogs/dialogs.json'
 import kyci from '../assets/images/Kyci.png';
 import penka from '../assets/images/Penka.png';
+import penka2 from '../assets/images/Penka2.png';
+import bratuto from '../assets/images/BratutoBig.png';
 import scene1 from '../assets/images/dialog_scene_1.png';
 
 export class DialogScene extends Phaser.Scene {
@@ -15,6 +17,8 @@ export class DialogScene extends Phaser.Scene {
         this.load.image('scene1', scene1);
         this.load.image('kyciAvatar1', kyci);
         this.load.image('penkaAvatar1', penka);
+        this.load.image('penka2Avatar1', penka2);
+        this.load.image('bratutoBigAvatar1', bratuto);
     }
 
     create(opts) {

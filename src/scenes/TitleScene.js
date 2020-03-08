@@ -13,6 +13,7 @@ import charlocal_fight_left from '../assets/images/Character_SlashUpLeft-Sheet.p
 import charlocal_fight_right from '../assets/images/Character_SlashDownRight-Sheet.png';
 import kyci from '../assets/images/Kyci.png';
 import penka from '../assets/images/Penka.png';
+import penka2 from '../assets/images/Penka2.png';
 import tombstone from '../assets/images/tombstone.png';
 import slap from '../assets/audio/slap2.wav';
 import grunt from '../assets/audio/grunt.wav';
@@ -77,6 +78,7 @@ export class TitleScene extends Phaser.Scene {
         this.load.image('kyciAvatar', kyci);
         this.load.image('tombstone', tombstone);
         this.load.image('penkaAvatar', penka);
+        this.load.image('penka2Avatar', penka2);
         this.load.audio('slap', slap);
         this.load.audio('grunt', grunt);
         this.load.audio('music', music);
