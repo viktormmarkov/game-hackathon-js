@@ -52,13 +52,15 @@ import damage from '../assets/images/PowerupDmg.png';
 import health from '../assets/images/PowerupHP.png';
 import speed from '../assets/images/PowerupSpeed.png';
 
+import background from '../assets/images/background.png';
+
 
 import maplocal from '../assets/map.json';
 import map2local from '../assets/map2.json';
 import music from '../assets/audio/music.wav';
 
 
-const fontSize = 25;
+const fontSize = 55;
 const menuItemStyle = {fontSize: `${fontSize}px`};
 
 const MENU_ITEMS = [{
@@ -74,6 +76,7 @@ export class TitleScene extends Phaser.Scene {
         super({key: 'TitleScene'});
     }
     preload() {
+        this.load.image('background', background);
         this.load.image("tiles", tilesetlocal);
         this.load.tilemapTiledJSON("map", maplocal);
         this.load.tilemapTiledJSON("map2", map2local);
@@ -136,10 +139,11 @@ export class TitleScene extends Phaser.Scene {
         this.load.image('speed', speed);
     }
     create() {
-        this.createMenu();
+        this.createMenu();  
     }
 
     createMenu() {
+        this.add.image(0, 0, 'background').setOrigin(0, 0).setScale(1.8,1.8);
         const x = this.game.renderer.width / 2;
         const y = this.game.renderer.height * 0.6;
         this.menuItems = MENU_ITEMS.map((item, index) => {
