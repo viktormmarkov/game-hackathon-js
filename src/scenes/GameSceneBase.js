@@ -326,10 +326,10 @@ export class GameSceneBase extends Phaser.Scene {
           this.fightAlarm = 10;
         });
 
-        // this.sound.play('music', {
-        //     volume: 0.2,
-        //     loop: true
-        // });
+        this.sound.play('music', {
+            volume: 0.2,
+            loop: true
+        });
     }
 
     createPlayer() {   
@@ -368,7 +368,7 @@ export class GameSceneBase extends Phaser.Scene {
           phitzone.destroy();
           enemy.health -= player.damage;
       });
-      // this.sound.play('slap');
+      this.sound.play('slap');
     }
 
     fillRect(graphics, {x,y,percent,height, width, color, borderColor}) {
@@ -634,7 +634,7 @@ export class GameSceneBase extends Phaser.Scene {
           }
           enemy.lastHit = time;
           player.health -= enemy.damage;
-          // this.sound.play('grunt');
+          this.sound.play('grunt', {volume: 0.3});
       }
 
       if ((time - enemy.lastHit) >= 200 && enemy.isHitting) {
