@@ -130,13 +130,8 @@ export class TitleScene extends Phaser.Scene {
         this.load.image('health', health);
         this.load.image('damage', damage);
         this.load.image('speed', speed);
-
-        // this.load.image('background', background);
     }
     create() {
-
-        // this.background = this.add.tileSprite(0, 0, config.width, config.height, 'background');
-        // this.background.setOrigin(0, 0);
         this.createMenu();
     }
 

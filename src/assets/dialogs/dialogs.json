@@ -1,7 +1,7 @@
 {
     "pre_scene1": [
         {
-            "text": "Здравей Пенке, как си днес :) :)",
+            "text": "Здравей Пенке, изглеждаш страхотно днес. Как си? 🙂 🙂",
             "character": "kyci"
 
         },
@@ -10,26 +10,26 @@
             "character": "penka"
         },
         {
-            "text": "Къци, живея в твоя блок.",
+            "text": "Къци, живея в твоя блок от 7 години.",
             "character": "kyci"
 
         },
         {
-            "text": "Aaa da...",
+            "text": "Aaa da... maj se se6tam",
             "character": "penka"
         },
 
         {
             "character": "kyci",
-            "text": "Всъщност чудих се дали искаш да..."
+            "text": "Какво ще правиш днес? От известно време се чудя дали искаш да..."
         },
 
         {
-            "text": "Znai6 kvo, maj si zabravih 4antata :(",
+            "text": "Znai6 kvo, maj si zabravih 4antata 😞",
             "character": "penka"
         },
         {
-            "text": "Къде?! Мога да отида да я взема за теб :)",
+            "text": "Ужас, къде?! Мога да отида да я взема за теб 🙂",
             "character": "kyci"
 
         },
@@ -45,77 +45,66 @@
     ],
     "scene1": [
         {
-            "text": "hi2",
+            "text": "Здравейте, търся чанта на Penka...",
+            "character": "kyci"
+        },
+        {
+            "text": "Kradeeeec, ograbva6 jenski chanti",
+            "character": "penka2"
+        },
+        {
+            "text": "Не е така, приятел съм на Penka",
             "character": "kyci"
 
         },
         {
-            "text": "здрав",
-            "character": "penka"
-        },
-        {
-            "text": "hi",
-            "character": "kyci"
-
-        },
-        {
-            "text": "Bring me my bag NOW!!!!!!!!",
-            "character": "penka"
-        },
-
-        {
-            "character": "kyci",
-            "text": "Fuck you fucking bitch"
+            "text": "Iz4ezvai ot tuk",
+            "character": "penka2"
         }
     ],    
     "pre_scene2": [
         {
-            "text": "hi3",
+            "text": "Търсих навсякъде, но не успях да ти намеря чантата",
             "character": "kyci"
 
         },
         {
-            "text": "здрав",
+            "text": "Koi be6e.. a da, az q namerih na masata v kuhnqta...",
             "character": "penka"
+
         },
         {
-            "text": "hi",
+            "text": "Това е страхотно.",
             "character": "kyci"
-
         },
         {
-            "text": "Bring me my bag NOW!!!!!!!!",
+            "text": "Shte otidesh li do GADJJETO MI za da mi vzemesh lekarstwata",
             "character": "penka"
-        },
 
+        },
         {
-            "character": "kyci",
-            "text": "Fuck you fucking bitch"
+            "text": "Тръгвам",
+            "character": "kyci"
         }
     ],
     "scene2": [
         {
-            "text": "hi4",
+            "text": "Здрасти, Вие ли сте гаджето на penka",
             "character": "kyci"
 
         },
         {
-            "text": "здрав",
-            "character": "penka"
+            "text": "Da syshto taka sym i vegoencer - vegan-influencer",
+            "character": "bratuto"
         },
         {
-            "text": "hi",
+            "text": "Пенка ме прати за лекарствата си.",
             "character": "kyci"
 
         },
         {
-            "text": "Bring me my bag NOW!!!!!!!!",
-            "character": "penka"
-        },
-
-        {
-            "character": "kyci",
-            "text": "Fuck you fucking bitch"
+            "text": "`Chezvai mursho",
+            "character": "bratuto"
         }
     ]
 }
